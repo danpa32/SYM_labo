@@ -10,5 +10,6 @@
     <string name="wrongEmail">Email is not valid !</string>
     <string name="good">Valid login, welcome !</string>
     <string name="title_activity_display">DisplayActivity</string>
+    <string name="welcome">Welcome</string>
 
 </resources>

@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View v) {
 				/*
 				 * There you have to check out if the email/password
-				 * combination given is valid or not
+				 * combination given is valid or nottoto
 				 */
 				String mail = email.getText().toString();
 				String passwd = psw.getText().toString();
