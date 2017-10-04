@@ -109,8 +109,6 @@ public class MainActivity extends AppCompatActivity {
 				} else {
 					Toast.makeText(MainActivity.this, getResources().getString(R.string.wrongEmail), Toast.LENGTH_LONG).show();
 				}
-
-
 			}
 			
 		});
@@ -134,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 		 * Pop-up dialog to show error
 		 */
 		AlertDialog.Builder alertbd = new AlertDialog.Builder(this);
-        alertbd.setIcon(android.R.drawable.ic_dialog_alert);
+        alertbd.setIcon(R.drawable.ic_highlight_off_black_24dp);
 		alertbd.setTitle(R.string.wronglogin);
 	    alertbd.setMessage(R.string.wrong);
 	    alertbd.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -145,5 +143,4 @@ public class MainActivity extends AppCompatActivity {
 	     });
 	    alertbd.create().show();
 	}
-	
 }
