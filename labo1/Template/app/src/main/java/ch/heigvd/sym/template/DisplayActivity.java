@@ -1,11 +1,17 @@
 package ch.heigvd.sym.template;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.provider.Settings.System;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
@@ -35,11 +41,42 @@ public class DisplayActivity extends AppCompatActivity {
         this.imei = (TextView) findViewById(R.id.imei);
         imei.setText(System.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID));
 
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_PHONE_STATE);
+        } else {
+            setAvatarImage();
+        }
+    }
+
+    private void setAvatarImage() {
         this.image = (ImageView) findViewById(R.id.image);
         String folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
         String filename = "perso.jpg";
         File imageFile = new File(folder + File.separator + filename);
-        image.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
+        if(imageFile.canRead()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+            image.setImageBitmap(bitmap);
+            //image.setImageURI(Uri.fromFile(imageFile));
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_READ_PHONE_STATE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setAvatarImage();
+                }
+                return;
+            }
+        }
     }
 
     @Override
