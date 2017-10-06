@@ -1,11 +1,13 @@
 package ch.heigvd.sym.template;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
@@ -13,11 +15,14 @@ import android.provider.Settings.System;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telecom.TelecomManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.ArrayList;
 
 
 public class DisplayActivity extends AppCompatActivity {
@@ -27,6 +32,7 @@ public class DisplayActivity extends AppCompatActivity {
     private TextView email = null;
     private TextView imei = null;
     private ImageView image = null;
+    private TelephonyManager tm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +45,42 @@ public class DisplayActivity extends AppCompatActivity {
         email.setText(intent.getStringExtra("emailEntered"));
 
         this.imei = (TextView) findViewById(R.id.imei);
-        imei.setText(System.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID));
+        tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
         // Here, thisActivity is the current activity
+
+        ArrayList<String> permissionNeeded = new ArrayList<>();
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
+            permissionNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_PHONE_STATE);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            permissionNeeded.add(Manifest.permission.READ_PHONE_STATE);
+        }
+
+        if (!permissionNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionNeeded.toArray(new String[permissionNeeded.size()]), REQUEST_READ_PHONE_STATE);
         } else {
+            getImei();
             setAvatarImage();
+        }
+    }
+
+    private void getImei() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String imeiString = tm.getImei();
+            if (imeiString == null) {
+                imei.setText("NULL");
+            } else {
+                imei.setText(imeiString);
+            }
+        } else {
+            imei.setText(tm.getDeviceId());
         }
     }
 
@@ -72,6 +104,7 @@ public class DisplayActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getImei();
                     setAvatarImage();
                 }
                 return;

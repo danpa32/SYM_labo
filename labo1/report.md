@@ -115,7 +115,20 @@ d’obtenir l’IMEI du téléphone, est dépréciée depuis la version 26 de l�
 Veuillez discuter de ce que cela implique lors du développement et de présenter
 une façon d’en tenir compte avec un exemple de code.*
 
+Il suffit de placer une condition qui vérifie la version de android et d'utiliser la méthode appropriée.
 
+```
+if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    String imeiString = tm.getImei();
+    if (imeiString == null) {
+        imei.setText("NULL");
+    } else {
+        imei.setText(imeiString);
+    }
+} else {
+    imei.setText(tm.getDeviceId());
+}
+```
 
 ## 6)
 
