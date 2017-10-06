@@ -162,3 +162,18 @@ méthodes sont invoquées. Si vous aviez (par exemple) une connexion Bluetooth
 (ou des connexions bases de données, ou des capteurs activés) ouverte dans votre
 Activity, que faudrait-il peut-être faire, à votre avis (nous ne vous demandons
 pas de code ici) ?*
+
+Le cycle de vie est marqué par les méthodes suivantes :
+- `onCreate()` Invoqué en premier à la création de l'activité
+- `onStart()` Invoqué ensuite
+- `onResume()` Invoqué lorsque l'activité revient au premier plan (si une autre activité avait pris le premier plan, par exemple)
+- `onPause()`	Invoqué lorsqu'une autre activité passe à l'avant-plan
+- `onRestart()` Invoqué lorsque l'utilisateur navigue jusqu'à l'activité (qui n'était précédemment plus au sommet de la pile des activités)
+- `onStop()` Invoqué lorsque l'activité courante n'est plus visible
+- `onDestroy()` Invoqué lorsque l'activité est terminée ou détruite par le système
+
+Dans notre application, l'activité affichant le formulaire de login est terminée une fois le login effectué. Son cycle de vie est donc `Create, Start, Resume, Pause, Stop, Destroy`. Lorsque l'utilisateur presse sur le bouton "Retour" depuis l'activité qui affiche ses informations, nous devons donc recréer l'activité de login.
+
+Il aurait été possible d'ouvrir simplement l'activité qui affiche les informations sans terminer l'activité de login. Ainsi son cycle de vie aurait été `Create, Start, Resume, Pause, Stop, (bouton retour), Restart, Start, etc.`
+
+Dans le cas d'une application utilisant par exemple le bluetooth, on pourrait imaginer vérifier que l'adaptateur bluetooth est enclenché et initier la connexion dans la fonction `onCreate()` de l'activité principale, puis terminer la connexion dans `onDestroy()`. Ainsi, si on empile les activités, la connexion restera active tant que l'application sera lancée. Attention, il faut vérifier dans `onCreate()` que la connexion n'a pas déjà été initiée, au cas où l'application serait préemptée par une autre (`onCreate()` est alors appelée à nouveau).
