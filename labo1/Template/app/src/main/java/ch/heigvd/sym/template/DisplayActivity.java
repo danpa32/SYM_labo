@@ -1,3 +1,11 @@
+/**
+ * File     : MainActivity.java
+ * Project  : TemplateActivity
+ * Author   : Guillaume Milani
+ *            Christopher Meier
+ *            Daniel Palumbo
+ *
+ */
 package ch.heigvd.sym.template;
 
 import android.Manifest;
@@ -6,16 +14,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.Settings;
-import android.provider.Settings.System;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.ImageView;

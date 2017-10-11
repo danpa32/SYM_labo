@@ -67,30 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
 			@Override
 			public void onClick(View v) {
-				/*
-				 * There you have to check out if the email/password
-				 * combination given is valid or nottoto
-				 */
 				String mail = email.getText().toString();
 				String passwd = psw.getText().toString();
 
 				if (isEmail(mail)) {
 					if (isValid(mail, passwd)) {
-					/* Ok, valid combination, do something or launch another activity...
-					 * The current activity could be finished, but it is not mandatory.
-					 * To launch activity MyActivity.class, try something like :
-					 *
-					 * 			Intent intent = new Intent(this, ch.heigvd.sym.MyActivity.class);
-					 * 			intent.putExtra("emailEntered", mail);
-					 *			intent.putExtra("passwordGiven", passwd);
-					 *			this.startActivity(intent);
-					 *
-					 * Alternately, you could also startActivityForResult if you are awaiting a result.
-					 * In the latter case, you have to indicate an int parameter to identify MyActivity
-					 *
-					 * If you haven't anything more to do, you may finish()...
-					 * But just display a small message before quitting...
-					 */
 						Toast.makeText(MainActivity.this, getResources().getString(R.string.good), Toast.LENGTH_LONG).show();
 
 						Intent intent = new Intent(getApplicationContext(), ch.heigvd.sym.template.DisplayActivity.class);
