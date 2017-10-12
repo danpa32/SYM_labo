@@ -37,14 +37,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
 
     // For logging purposes
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    // Just for test purposes : please destroy !
-	private static final String validEmail      = "toto@tutu.com";
-	private static final String validPassword   = "tata";
+	private HashMap<String, String> uPass = new HashMap<>();
 
     // GUI elements
 	private EditText email      = null;
@@ -54,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+		uPass.put("toto@tutu.com", "tata");
+		uPass.put("bob@bob", "bob");
+		uPass.put("nope@nope", "nope");
+
 		// Show the welcome screen / login authentication dialog
 		setContentView(R.layout.authent);
 
@@ -70,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
 				String mail = email.getText().toString();
 				String passwd = psw.getText().toString();
 
-				if (isEmail(mail)) {
-					if (isValid(mail, passwd)) {
+				if (isValid(mail, passwd)) {
+					if (isKnown(mail, passwd)) {
 						Toast.makeText(MainActivity.this, getResources().getString(R.string.good), Toast.LENGTH_LONG).show();
 
 						Intent intent = new Intent(getApplicationContext(), ch.heigvd.sym.template.DisplayActivity.class);
@@ -94,18 +99,34 @@ public class MainActivity extends AppCompatActivity {
 			
 		});
 	}
-	
+
+	/**
+	 * @brief check if the mail and password aren't wrongly written
+	 * @param mail String The mail written by the user
+	 * @param passwd String The password written by the user
+	 * @return true if the mail and password aren't null and mail contains an @, else false
+	 */
 	private boolean isValid(String mail, String passwd) {
-        if(mail == null || passwd == null) {
+        if(mail == null || passwd == null || !mail.contains("@")) {
             Log.w(TAG, "isValid(mail, passwd) - mail and passwd cannot be null !");
             return false;
         }
 		// Return true if combination valid, false otherwise
-		return (mail.equals(validEmail) && passwd.equals(validPassword));
+		return true;
 	}
 
-	private boolean isEmail(String mail) {
-		return mail.contains("@");
+	/**
+	 * @brief Check if the mail and password combinaison exists in the "database" (hashmap here)
+	 * @param mail String The mail (key in the hashmap)
+	 * @param passwd String The password (value in the hashmap)
+	 * @return true if the combinaison exists, else false
+	 */
+	private boolean isKnown(String mail, String passwd) {
+		String pass = uPass.get(mail);
+		if (pass != null) {
+			return pass.equals(passwd);
+		}
+		return false;
 	}
 	
 	protected void showErrorDialog(String mail, String passwd) {

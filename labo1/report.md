@@ -44,7 +44,7 @@ Android.*
 Il faut ajouter l'icone dans *drawable* puis modifier le code dans la boîte de
 dialogue d'erreur :
 
-```
+```java
 alertbd.setIcon(R.drawable.ic_highlight_off_black_24dp);
 ```
 
@@ -59,7 +59,7 @@ Il me renvoi sur le menu du téléphone alors qu'il serait plus logique de me
 renvoyer sur la page de login de l'application. Afin d'obtenir ce résultat il
 suffit d'ajouter cette méthode dans la classe `DisplayActivity` :
 
-```
+```java
 @Override
 public void onBackPressed() {
     Intent intent = new Intent(this, MainActivity.class);
@@ -79,7 +79,7 @@ Nous pouvons utiliser la méthode *setResult()* qui permet d'envoyer un résulta
 
 1) Créer un nouvelle activité dans l'activité principale
 
-    ```
+    ```java
     Intent intent2 = new Intent(this, Activity2.class);
     startActivityForResult(intent2, 1);
     ```
@@ -87,7 +87,7 @@ Nous pouvons utiliser la méthode *setResult()* qui permet d'envoyer un résulta
 2) Dans l'activité créée, on récupère la valeure souhaitée et on la place dans
 un intent que l'on renvoie à l'activité principale.
 
-    ```
+    ```java
     Intent intent = new Intent();
     intent.putExtra("editTextValue","value_here")
     setResult(RESULT_OK, intent);
@@ -96,7 +96,7 @@ un intent que l'on renvoie à l'activité principale.
 
 3) Récupération du résultat
 
-    ```
+    ```java
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
@@ -117,7 +117,7 @@ une façon d’en tenir compte avec un exemple de code.*
 
 Il suffit de placer une condition qui vérifie la version de android et d'utiliser la méthode appropriée.
 
-```
+```java
 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
     String imeiString = tm.getImei();
     if (imeiString == null) {
@@ -139,9 +139,9 @@ spécifique au mode paysage qui permet un affichage mieux adapté et indiquer
 comment faire pour qu’il soit utilisé à l’exécution.*
 
 Il suffit d'aller dans le fichier `AndroidManifest.xml` et de rajouter le code
-ci-dessous dans l'activité contenant le login.
+ci-dessous dans le tag correspondant à l'activité login.
 
-```
+```java
 android:screenOrientation="landscape"
 ```
 

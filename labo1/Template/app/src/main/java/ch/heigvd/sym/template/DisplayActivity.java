@@ -75,6 +75,9 @@ public class DisplayActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * @brief get the smartphone by using the right function depending of the os version
+     */
     private void getImei() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String imeiString = tm.getImei();
@@ -88,6 +91,9 @@ public class DisplayActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * @brief get the user image from the sdcard
+     */
     private void setAvatarImage() {
         this.image = (ImageView) findViewById(R.id.image);
         String folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
@@ -96,9 +102,9 @@ public class DisplayActivity extends AppCompatActivity {
         if(imageFile.canRead()) {
             Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
             image.setImageBitmap(bitmap);
-            //image.setImageURI(Uri.fromFile(imageFile));
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
