@@ -8,6 +8,7 @@ date: "02 octobre 2017"
 geometry: "margin=1in"
 papersize: "a4"
 monofont: "Inconsolata"
+documentclass: report
 ---
 
 # Questions

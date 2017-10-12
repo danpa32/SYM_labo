@@ -4,6 +4,9 @@
  * Author   : Markus Jaton 2 juillet 2014
  * 			  Fabien Dutoit 20 septembre 2016
  *            IICT / HEIG-VD
+ *            Guillaume Milani
+ *            Christopher Meier
+ *            Daniel Palumbo
  *                                       
  * mailto:fabien.dutoit@heig-vd.ch
  * 
