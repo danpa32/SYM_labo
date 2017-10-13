@@ -2,14 +2,19 @@
 title: "SYM - Labo 1"
 author:
     - "Guillaume Milani"
-	- "Christopher MEIER"
-	- "Daniel PALUMBO"
-date: "02 octobre 2017"
-geometry: "margin=1in"
-papersize: "a4"
-monofont: "Inconsolata"
-documentclass: report
+    - "Christopher MEIER"
+    - "Daniel PALUMBO"
+date:           "12 octobre 2017"
+geometry:       "margin=1in"
+papersize:      "a4"
+monofont:       "Inconsolata"
+documentclass:  "report"
+lang:           "fr"
 ---
+
+# Introduction
+
+Ce laboratoire permet la prise en main de la structure et des principes de base d'une application Android.
 
 # Questions
 
@@ -178,3 +183,7 @@ Dans notre application, l'activité affichant le formulaire de login est termin�
 Il aurait été possible d'ouvrir simplement l'activité qui affiche les informations sans terminer l'activité de login. Ainsi son cycle de vie aurait été `Create, Start, Resume, Pause, Stop, (bouton retour), Restart, Start, etc.`
 
 Dans le cas d'une application utilisant par exemple le bluetooth, on pourrait imaginer vérifier que l'adaptateur bluetooth est enclenché et initier la connexion dans la fonction `onCreate()` de l'activité principale, puis terminer la connexion dans `onDestroy()`. Ainsi, si on empile les activités, la connexion restera active tant que l'application sera lancée. Attention, il faut vérifier dans `onCreate()` que la connexion n'a pas déjà été initiée, au cas où l'application serait préemptée par une autre (`onCreate()` est alors appelée à nouveau).
+
+# Conclusion
+
+Pour certain d'entre nous, il y a eu quelques difficultés à mettre en place l'environnement de développement, mais les solutions aux problèmes ont été rapidement résolues. Sinon le laboratoire s'est bien déroulé.
