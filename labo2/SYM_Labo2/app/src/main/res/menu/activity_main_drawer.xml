@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="@string/title_home" />
+        <item
+            android:id="@+id/nav_transmission_async"
+            android:title="@string/title_transmission_async" />
+        <item
+            android:id="@+id/nav_transmission_delayed"
+            android:title="@string/title_transmission_delayed" />
+        <item
+            android:id="@+id/nav_transmission_of_objects"
+            android:title="@string/title_transmission_of_objects" />
+        <item
+            android:id="@+id/nav_transmission_compressed"
+            android:title="@string/title_transmission_compressed" />
+    </group>
+
+</menu>

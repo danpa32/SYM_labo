@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SYM_Labo2</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Title of nav -->
+    <string name="title_home">Accueil</string>
+    <string name="title_transmission_async">Transmission asynchrone</string>
+    <string name="title_transmission_delayed">Transmission différée</string>
+    <string name="title_transmission_of_objects">Transmission d\'objets</string>
+    <string name="title_transmission_compressed">Transmission compressée</string>
+
+</resources>
