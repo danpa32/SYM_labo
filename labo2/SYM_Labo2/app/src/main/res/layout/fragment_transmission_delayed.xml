@@ -4,10 +4,31 @@
     android:layout_height="match_parent"
     tools:context="ch.heigvd.sym.sym_labo2.TransmissionDelayed">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/title_transmission_delayed" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true">
+
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/title_transmission_delayed" />
+
+        <Button
+            android:id="@+id/bDelay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delay Request" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ScrollView>
+
+    </LinearLayout>
 
 </FrameLayout>

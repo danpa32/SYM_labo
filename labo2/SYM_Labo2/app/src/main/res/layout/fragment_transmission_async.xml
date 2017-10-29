@@ -4,10 +4,38 @@
     android:layout_height="match_parent"
     tools:context="ch.heigvd.sym.sym_labo2.TransmissionAsync">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/title_transmission_async" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true">
+
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/title_transmission_async" />
+
+        <Button
+            android:id="@+id/bAsync"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Async request" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:text="Waiting on user interaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textInfoAsync"/>
+        </ScrollView>
+
+    </LinearLayout>
 
 </FrameLayout>
