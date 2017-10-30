@@ -54,7 +54,7 @@ public class AsyncSendRequest extends AsyncTask<Void, String, String> {
             while ((line = reader.readLine()) != null) {
                 response.append(line);
             }
-            output = line.toString();
+            output = response.toString();
             reader.close();
 
         } catch (IOException e) {

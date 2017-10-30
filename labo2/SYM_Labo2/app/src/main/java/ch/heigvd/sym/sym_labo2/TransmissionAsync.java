@@ -56,7 +56,7 @@ public class TransmissionAsync extends Fragment implements View.OnClickListener{
         switch (view.getId()) {
             case R.id.bAsync:
                 try {
-                    manager.sendRequest("echo", "http://sym.iict.ch/rest/txt");
+                    manager.sendRequest("echo", "https://sym.iict.ch/rest/txt");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
