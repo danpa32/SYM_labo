@@ -13,7 +13,6 @@ import javax.net.ssl.HttpsURLConnection;
 /**
  * Created by Daniel on 29.10.2017.
  */
-
 public class AsyncSendRequest extends AsyncTask<Void, String, String> {
 
     private RequestInfo requestInfo;
@@ -29,7 +28,7 @@ public class AsyncSendRequest extends AsyncTask<Void, String, String> {
         String output = null;
         HttpsURLConnection httpsURLConnection = null;
         try {
-            // Open teh connection
+            // Open the connection
             httpsURLConnection = (HttpsURLConnection) requestInfo.getUrl().openConnection();
             httpsURLConnection.setDoOutput(true);
 
