@@ -2,15 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.heigvd.sym.sym_labo2.TransmissionDelayed">
+    tools:context="ch.heigvd.sym.sym_labo2.TransmissionDeferred">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true">
+        android:layout_height="match_parent">
 
         <!-- TODO: Update blank fragment layout -->
         <TextView
@@ -19,14 +16,20 @@
             android:text="@string/title_transmission_delayed" />
 
         <Button
-            android:id="@+id/bDelay"
+            android:id="@+id/bDeferred"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Delay Request" />
+            android:text="@string/deferred_request" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <TextView
+                android:text="@string/waiting_on_user_interaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textInfoDeferred"/>
         </ScrollView>
 
     </LinearLayout>

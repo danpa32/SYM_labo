@@ -12,5 +12,10 @@
     <string name="title_transmission_delayed">Transmission différée</string>
     <string name="title_transmission_of_objects">Transmission d\'objets</string>
     <string name="title_transmission_compressed">Transmission compressée</string>
+    <string name="deferred_request">Deffered Request</string>
+    <string name="waiting_on_user_interaction">Waiting on user interaction</string>
+    <string name="async_request">Async request</string>
+    <string name="json_request">JSON Request</string>
+    <string name="xml_request">XML Request</string>
 
 </resources>

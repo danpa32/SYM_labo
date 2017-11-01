@@ -2,10 +2,10 @@ package ch.heigvd.sym.sym_labo2.request;
 
 import android.os.AsyncTask;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -41,7 +41,7 @@ public class AsyncSendRequest extends AsyncTask<Void, String, String> {
             }
 
             // send data
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(httpsURLConnection.getOutputStream()));
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(httpsURLConnection.getOutputStream()));
             writer.write(requestInfo.getBody());
             writer.flush();
             writer.close();
@@ -52,6 +52,7 @@ public class AsyncSendRequest extends AsyncTask<Void, String, String> {
             StringBuilder response = new StringBuilder();
             while ((line = reader.readLine()) != null) {
                 response.append(line);
+                response.append("\n");
             }
             output = response.toString();
             reader.close();
