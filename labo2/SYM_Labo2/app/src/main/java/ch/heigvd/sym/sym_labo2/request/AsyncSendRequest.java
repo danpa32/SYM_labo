@@ -7,13 +7,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.Objects;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import ch.heigvd.sym.sym_labo2.Utils.CompressRequest;
+import ch.heigvd.sym.sym_labo2.request.Model.RequestInfo;
 
 /**
  * Created by Daniel on 29.10.2017.

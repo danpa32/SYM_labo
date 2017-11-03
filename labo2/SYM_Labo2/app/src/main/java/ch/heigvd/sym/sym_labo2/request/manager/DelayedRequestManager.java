@@ -8,15 +8,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ch.heigvd.sym.sym_labo2.request.AsyncSendRequest;
-import ch.heigvd.sym.sym_labo2.request.RequestInfo;
+import ch.heigvd.sym.sym_labo2.request.Model.RequestInfo;
 import ch.heigvd.sym.sym_labo2.request.RequestResult;
 
 /**
  * Created by daniel on 30.10.17.
+ *
+ * TODO -> Création d'une file d'attente
  */
 
 public class DelayedRequestManager extends BaseRequestManager implements RequestResult {
-    RequestInfo requestInfo;
+    private RequestInfo requestInfo;
 
     @Override
     public String sendRequest(String request, String url) throws MalformedURLException {

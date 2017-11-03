@@ -12,6 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ch.heigvd.sym.sym_labo2.fragment.TransmissionAsync;
+import ch.heigvd.sym.sym_labo2.fragment.TransmissionCompressed;
+import ch.heigvd.sym.sym_labo2.fragment.TransmissionDelayed;
+import ch.heigvd.sym.sym_labo2.fragment.TransmissionOfObjects;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.heigvd.sym.sym_labo2.TransmissionAsync">
+    tools:context="ch.heigvd.sym.sym_labo2.fragment.TransmissionAsync">
 
     <LinearLayout
         android:orientation="vertical"

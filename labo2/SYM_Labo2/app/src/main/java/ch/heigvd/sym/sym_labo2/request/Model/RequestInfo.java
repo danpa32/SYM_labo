@@ -1,4 +1,4 @@
-package ch.heigvd.sym.sym_labo2.request;
+package ch.heigvd.sym.sym_labo2.request.Model;
 
 import java.net.URL;
 import java.util.Iterator;

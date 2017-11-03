@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.heigvd.sym.sym_labo2.request.AsyncSendRequest;
-import ch.heigvd.sym.sym_labo2.request.RequestInfo;
+import ch.heigvd.sym.sym_labo2.request.Model.RequestInfo;
 import ch.heigvd.sym.sym_labo2.request.RequestResult;
 
 /**

@@ -1,4 +1,4 @@
-package ch.heigvd.sym.sym_labo2;
+package ch.heigvd.sym.sym_labo2.fragment;
 
 
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.logging.Logger;
 
+import ch.heigvd.sym.sym_labo2.R;
 import ch.heigvd.sym.sym_labo2.request.CommunicationEventListener;
 import ch.heigvd.sym.sym_labo2.request.manager.JSONRequestManager;
 import ch.heigvd.sym.sym_labo2.request.manager.XMLRequestManager;

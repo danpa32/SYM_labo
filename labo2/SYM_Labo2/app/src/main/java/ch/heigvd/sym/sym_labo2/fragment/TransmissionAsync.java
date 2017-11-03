@@ -1,4 +1,4 @@
-package ch.heigvd.sym.sym_labo2;
+package ch.heigvd.sym.sym_labo2.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,36 +10,32 @@ import android.widget.TextView;
 
 import java.util.logging.Logger;
 
+import ch.heigvd.sym.sym_labo2.R;
 import ch.heigvd.sym.sym_labo2.request.CommunicationEventListener;
-import ch.heigvd.sym.sym_labo2.request.manager.CompressedRequestManager;
+import ch.heigvd.sym.sym_labo2.request.manager.TextRequestManager;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class TransmissionCompressed extends Fragment implements View.OnClickListener{
+public class TransmissionAsync extends Fragment implements View.OnClickListener{
 
-    private static final Logger log = Logger.getLogger(TransmissionCompressed.class.getSimpleName());
+    private static final Logger log = Logger.getLogger(TransmissionAsync.class.getSimpleName());
 
     private View view;
     private TextView textView;
-    private CompressedRequestManager manager;
+    private TextRequestManager manager;
 
-    public TransmissionCompressed() {
+    public TransmissionAsync() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_transmission_compressed, container, false);
+        view = inflater.inflate(R.layout.fragment_transmission_async, container, false);
 
-        final Button button = (Button) view.findViewById(R.id.bCompressed);
-        textView = (TextView) view.findViewById(R.id.textInfoCompressed);
+        final Button button = (Button) view.findViewById(R.id.bAsync);
+        textView = (TextView) view.findViewById(R.id.textInfoAsync);
         button.setOnClickListener(this);
 
-        manager = new CompressedRequestManager();
+        manager = new TextRequestManager();
         manager.setCommunicationEventListener(new CommunicationEventListener() {
             @Override
             public boolean handleServerResponse(String response) {
@@ -48,13 +44,14 @@ public class TransmissionCompressed extends Fragment implements View.OnClickList
             }
         });
 
+        // Inflate the layout for this fragment
         return view;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bCompressed:
+            case R.id.bAsync:
                 try {
                     manager.sendRequest("echo", "https://sym.iict.ch/rest/txt");
                 } catch (Exception e) {
@@ -66,5 +63,4 @@ public class TransmissionCompressed extends Fragment implements View.OnClickList
                 log.warning("The button doesn't exists !");
         }
     }
-
 }

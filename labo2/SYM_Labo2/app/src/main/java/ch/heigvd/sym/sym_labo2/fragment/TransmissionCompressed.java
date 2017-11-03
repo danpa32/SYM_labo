@@ -1,5 +1,4 @@
-package ch.heigvd.sym.sym_labo2;
-
+package ch.heigvd.sym.sym_labo2.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,21 +10,22 @@ import android.widget.TextView;
 
 import java.util.logging.Logger;
 
+import ch.heigvd.sym.sym_labo2.R;
 import ch.heigvd.sym.sym_labo2.request.CommunicationEventListener;
-import ch.heigvd.sym.sym_labo2.request.manager.DelayedRequestManager;
+import ch.heigvd.sym.sym_labo2.request.manager.CompressedRequestManager;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TransmissionDelayed extends Fragment implements View.OnClickListener {
+public class TransmissionCompressed extends Fragment implements View.OnClickListener{
 
-    private static final Logger log = Logger.getLogger(TransmissionDelayed.class.getSimpleName());
+    private static final Logger log = Logger.getLogger(TransmissionCompressed.class.getSimpleName());
 
     private View view;
     private TextView textView;
-    private DelayedRequestManager manager;
+    private CompressedRequestManager manager;
 
-    public TransmissionDelayed() {
+    public TransmissionCompressed() {
         // Required empty public constructor
     }
 
@@ -33,38 +33,39 @@ public class TransmissionDelayed extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_transmission_delayed, container, false);
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_transmission_compressed, container, false);
 
-        final Button button = (Button) view.findViewById(R.id.bDeferred);
-        textView = (TextView) view.findViewById(R.id.textInfoDelayed);
+        final Button button = (Button) view.findViewById(R.id.bCompressed);
+        textView = (TextView) view.findViewById(R.id.textInfoCompressed);
         button.setOnClickListener(this);
 
-        manager = new DelayedRequestManager();
+        manager = new CompressedRequestManager();
         manager.setCommunicationEventListener(new CommunicationEventListener() {
             @Override
             public boolean handleServerResponse(String response) {
-                textView.setText("\n");
-                textView.append(response);
+                textView.setText(response);
                 return true;
             }
         });
 
-        // Inflate the layout for this fragment
         return view;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bDeferred:
+            case R.id.bCompressed:
                 try {
                     manager.sendRequest("echo", "https://sym.iict.ch/rest/txt");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 textView.setText("Waiting...");
+                break;
             default:
                 log.warning("The button doesn't exists !");
         }
     }
+
 }
