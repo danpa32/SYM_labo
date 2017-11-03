@@ -1,7 +1,5 @@
 package ch.heigvd.sym.sym_labo2.request.manager;
 
-import android.os.AsyncTask;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -17,7 +15,7 @@ import ch.heigvd.sym.sym_labo2.request.RequestResult;
  * Created by daniel on 30.10.17.
  */
 
-public class DeferredRequestManager extends BaseRequestManager implements RequestResult {
+public class DelayedRequestManager extends BaseRequestManager implements RequestResult {
     RequestInfo requestInfo;
 
     @Override
@@ -29,19 +27,19 @@ public class DeferredRequestManager extends BaseRequestManager implements Reques
 
         new AsyncSendRequest(requestInfo, this).execute();
 
-        return "All is good";
+        return requestInfo.toString();
     }
 
     @Override
     public void onFinished(String output) {
         if (output == null) {
-            final DeferredRequestManager manager = this;
+            final DelayedRequestManager manager = this;
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
                     new AsyncSendRequest(requestInfo, manager).execute();
                 }
-            }, 10000, 5000);
+            }, 10000);
         }
     }
 }

@@ -1,5 +1,7 @@
 package ch.heigvd.sym.sym_labo2.request.manager;
 
+import android.util.Log;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -23,7 +25,8 @@ public class XMLRequestManager extends BaseRequestManager implements RequestResu
 
         new AsyncSendRequest(requestInfo, this).execute();
 
-        return "All is good";
+        System.out.println(requestInfo.toString());
+        return requestInfo.toString();
     }
 
     @Override

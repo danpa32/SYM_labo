@@ -3,29 +3,26 @@ package ch.heigvd.sym.sym_labo2;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.logging.Logger;
+
 import ch.heigvd.sym.sym_labo2.request.CommunicationEventListener;
 import ch.heigvd.sym.sym_labo2.request.manager.TextRequestManager;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TransmissionAsync.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TransmissionAsync#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TransmissionAsync extends Fragment implements View.OnClickListener{
+
+    private static final Logger log = Logger.getLogger(TransmissionAsync.class.getSimpleName());
 
     private View view;
     private TextView textView;
     private TextRequestManager manager;
+
     public TransmissionAsync() {
         // Required empty public constructor
     }
@@ -43,9 +40,7 @@ public class TransmissionAsync extends Fragment implements View.OnClickListener{
         manager.setCommunicationEventListener(new CommunicationEventListener() {
             @Override
             public boolean handleServerResponse(String response) {
-                textView.setText(Html.fromHtml("<b>Response:<\b>"));
-                textView.append("\n");
-                textView.append(response);
+                textView.setText(response);
                 return true;
             }
         });
@@ -64,6 +59,9 @@ public class TransmissionAsync extends Fragment implements View.OnClickListener{
                     e.printStackTrace();
                 }
                 textView.setText("Waiting...");
+                break;
+            default:
+                log.warning("The button doesn't exists !");
         }
     }
 }

@@ -26,7 +26,8 @@ public class JSONRequestManager extends BaseRequestManager implements RequestRes
 
         new AsyncSendRequest(requestInfo, this).execute();
 
-        return "All is good";
+        System.out.println(requestInfo.toString());
+        return requestInfo.toString();
     }
 
     @Override

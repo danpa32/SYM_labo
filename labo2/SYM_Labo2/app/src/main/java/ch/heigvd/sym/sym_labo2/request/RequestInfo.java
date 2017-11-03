@@ -1,6 +1,7 @@
 package ch.heigvd.sym.sym_labo2.request;
 
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -34,5 +35,24 @@ public class RequestInfo {
 
     public String getBody() {
         return body;
+    }
+
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("Request Info");
+        str.append(requestType);
+        str.append(" ");
+        str.append(url);
+        str.append("\n");
+        for (Map.Entry<String, String> entry : headers.entrySet()){
+            str.append(entry.getKey());
+            str.append(" : ");
+            str.append(entry.getValue());
+            str.append("\n");
+        }
+        str.append("\n");
+        str.append(body);
+
+        return str.toString();
     }
 }

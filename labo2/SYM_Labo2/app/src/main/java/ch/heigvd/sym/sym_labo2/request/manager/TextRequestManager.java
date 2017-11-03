@@ -23,11 +23,12 @@ public class TextRequestManager extends BaseRequestManager implements RequestRes
 
         new AsyncSendRequest(requestInfo, this).execute();
 
-        return "All is good";
+        System.out.println(requestInfo.toString());
+        return requestInfo.toString();
     }
 
     @Override
     public void onFinished(String output) {
-        listener.handleServerResponse(new String(output));
+        listener.handleServerResponse(output);
     }
 }

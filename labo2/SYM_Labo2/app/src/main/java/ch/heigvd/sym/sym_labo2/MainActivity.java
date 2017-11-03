@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = new TransmissionAsync();
                 break;
             case R.id.nav_transmission_delayed:
-                fragment = new TransmissionDeferred();
+                fragment = new TransmissionDelayed();
                 break;
             case R.id.nav_transmission_of_objects:
                 fragment = new TransmissionOfObjects();

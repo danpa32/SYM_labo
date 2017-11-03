@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.heigvd.sym.sym_labo2.TransmissionDeferred">
+    tools:context="ch.heigvd.sym.sym_labo2.TransmissionDelayed">
 
     <LinearLayout
         android:orientation="vertical"
@@ -29,7 +29,7 @@
                 android:text="@string/waiting_on_user_interaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textInfoDeferred"/>
+                android:id="@+id/textInfoDelayed"/>
         </ScrollView>
 
     </LinearLayout>

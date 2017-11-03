@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.logging.Logger;
+
 import ch.heigvd.sym.sym_labo2.request.CommunicationEventListener;
 import ch.heigvd.sym.sym_labo2.request.manager.JSONRequestManager;
 import ch.heigvd.sym.sym_labo2.request.manager.XMLRequestManager;
@@ -19,6 +21,9 @@ import ch.heigvd.sym.sym_labo2.request.manager.XMLRequestManager;
  * A simple {@link Fragment} subclass.
  */
 public class TransmissionOfObjects extends Fragment implements View.OnClickListener{
+
+    private static final Logger log = Logger.getLogger(TransmissionOfObjects.class.getSimpleName());
+
     private View view;
     private TextView textView;
     private JSONRequestManager managerJson;
@@ -43,8 +48,7 @@ public class TransmissionOfObjects extends Fragment implements View.OnClickListe
         managerJson.setCommunicationEventListener(new CommunicationEventListener() {
             @Override
             public boolean handleServerResponse(String response) {
-                textView.setText(Html.fromHtml("<b>Response:<\b>"));
-                textView.append("\n");
+                textView.setText(Html.fromHtml("\n"));
                 textView.append(response);
                 return true;
             }
@@ -54,8 +58,7 @@ public class TransmissionOfObjects extends Fragment implements View.OnClickListe
         managerXml.setCommunicationEventListener(new CommunicationEventListener() {
             @Override
             public boolean handleServerResponse(String response) {
-                textView.setText(Html.fromHtml("<b>Response:<\b>"));
-                textView.append("\n");
+                textView.setText("\n");
                 textView.append(response);
                 return true;
             }
@@ -76,6 +79,7 @@ public class TransmissionOfObjects extends Fragment implements View.OnClickListe
                     e.printStackTrace();
                 }
                 textView.setText("Waiting...");
+                break;
             case R.id.bXML:
                 try {
                     String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -86,7 +90,9 @@ public class TransmissionOfObjects extends Fragment implements View.OnClickListe
                     e.printStackTrace();
                 }
                 textView.setText("Waiting...");
-
+                break;
+            default:
+                log.warning("The button doesn't exists !");
         }
     }
 }

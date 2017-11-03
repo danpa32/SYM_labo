@@ -17,5 +17,6 @@
     <string name="async_request">Async request</string>
     <string name="json_request">JSON Request</string>
     <string name="xml_request">XML Request</string>
+    <string name="compressed_request">Compressed Request</string>
 
 </resources>
