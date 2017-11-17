@@ -65,7 +65,6 @@ public class TransmissionDelayed extends Fragment implements View.OnClickListene
                 }
                 textView.setText("Waiting...");
             default:
-                log.warning("The button doesn't exists !");
         }
     }
 }

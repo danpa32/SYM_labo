@@ -12,7 +12,7 @@ import ch.heigvd.sym.sym_labo2.request.RequestResult;
 /**
  * Created by Daniel on 29.10.2017.
  */
-public class TextRequestManager extends BaseRequestManager implements RequestResult {
+public class TextRequestManager extends BaseRequestManager {
 
     @Override
     public String sendRequest(String request, String url) throws MalformedURLException {
@@ -25,10 +25,5 @@ public class TextRequestManager extends BaseRequestManager implements RequestRes
 
         System.out.println(requestInfo.toString());
         return requestInfo.toString();
-    }
-
-    @Override
-    public void onFinished(String output) {
-        listener.handleServerResponse(output);
     }
 }

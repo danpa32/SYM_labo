@@ -1,11 +1,14 @@
 package ch.heigvd.sym.sym_labo2.request;
 
 import android.os.AsyncTask;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
@@ -55,11 +58,15 @@ public class AsyncSendRequest extends AsyncTask<Void, String, String> {
                 bytes = CompressRequest.compress(bytes);
             } else {
                 // send data
-                PrintWriter writer = new PrintWriter(
-                                        new OutputStreamWriter(httpsURLConnection.getOutputStream()));
-                writer.write(requestInfo.getBody());
-                writer.flush();
-                writer.close();
+                try {
+                    PrintWriter writer = new PrintWriter(
+                            new OutputStreamWriter(httpsURLConnection.getOutputStream()));
+                    writer.write(requestInfo.getBody());
+                    writer.flush();
+                    writer.close();
+                } catch (UnknownHostException e) {
+                    Log.i("AsyncSendRequest", "Unable to reach host");
+                }
             }
 
             // get response
@@ -69,11 +76,11 @@ public class AsyncSendRequest extends AsyncTask<Void, String, String> {
             if (compressedRequest) {
                 Inflater inflater = new Inflater(true);
                 reader = new BufferedReader(
-                            new InputStreamReader(
+                        new InputStreamReader(
                                 new InflaterInputStream(httpsURLConnection.getInputStream(), inflater)));
             } else {
                 reader = new BufferedReader(
-                            new InputStreamReader(httpsURLConnection.getInputStream()));
+                        new InputStreamReader(httpsURLConnection.getInputStream()));
             }
 
             while ((line = reader.readLine()) != null) {

@@ -13,7 +13,7 @@ import ch.heigvd.sym.sym_labo2.request.RequestResult;
  * Created by daniel on 30.10.17.
  */
 
-public class CompressedRequestManager extends BaseRequestManager implements RequestResult {
+public class CompressedRequestManager extends BaseRequestManager {
     @Override
     public String sendRequest(String request, String url) throws MalformedURLException {
         Map<String, String> headers = new HashMap<>();
@@ -27,10 +27,5 @@ public class CompressedRequestManager extends BaseRequestManager implements Requ
 
         System.out.println(requestInfo.toString());
         return requestInfo.toString();
-    }
-
-    @Override
-    public void onFinished(String output) {
-        listener.handleServerResponse(output);
     }
 }

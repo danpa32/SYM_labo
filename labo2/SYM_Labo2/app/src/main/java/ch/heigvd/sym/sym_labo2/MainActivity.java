@@ -16,9 +16,12 @@ import ch.heigvd.sym.sym_labo2.fragment.TransmissionAsync;
 import ch.heigvd.sym.sym_labo2.fragment.TransmissionCompressed;
 import ch.heigvd.sym.sym_labo2.fragment.TransmissionDelayed;
 import ch.heigvd.sym.sym_labo2.fragment.TransmissionOfObjects;
+import ch.heigvd.sym.sym_labo2.request.manager.DelayedRequestManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private DelayedRequestManager delayedRequestManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
