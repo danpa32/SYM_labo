@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.logging.Logger;
@@ -19,9 +20,10 @@ import ch.heigvd.sym.sym_labo2.request.manager.XMLRequestManager;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple fragment to allow the user to transmit predetermined objects.
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
-public class TransmissionOfObjects extends Fragment implements View.OnClickListener{
+public class TransmissionOfObjects extends Fragment {
 
     private static final Logger log = Logger.getLogger(TransmissionOfObjects.class.getSimpleName());
 
@@ -42,8 +44,38 @@ public class TransmissionOfObjects extends Fragment implements View.OnClickListe
         final Button jsonButton = (Button) view.findViewById(R.id.bJSON);
         final Button xmlButton = (Button) view.findViewById(R.id.bXML);
         textView = (TextView) view.findViewById(R.id.textInfoObject);
-        jsonButton.setOnClickListener(this);
-        xmlButton.setOnClickListener(this);
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.bJSON:
+                        try {
+                            String json = "{\"Hello\":\"World\"}";
+                            managerJson.sendRequest(json, "https://sym.iict.ch/rest/json");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        textView.setText(R.string.waiting_rsp);
+                        break;
+                    case R.id.bXML:
+                        try {
+                            String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                                    "<!DOCTYPE directory SYSTEM \"http://sym.iict.ch/directory.dtd\">\n" +
+                                    "<directory />";
+                            managerXml.sendRequest(xml, "https://sym.iict.ch/rest/xml");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        textView.setText(R.string.waiting_rsp);
+                        break;
+                    default:
+                        log.warning("The button doesn't exists !");
+                }
+            }
+        };
+        jsonButton.setOnClickListener(listener);
+        xmlButton.setOnClickListener(listener);
 
         managerJson = new JSONRequestManager();
         managerJson.setCommunicationEventListener(new CommunicationEventListener() {
@@ -67,33 +99,5 @@ public class TransmissionOfObjects extends Fragment implements View.OnClickListe
 
         // Inflate the layout for this fragment
         return view;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bJSON:
-                try {
-                    String json = "{\"Hello\":\"World\"}";
-                    managerJson.sendRequest(json, "https://sym.iict.ch/rest/json");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                textView.setText("Waiting...");
-                break;
-            case R.id.bXML:
-                try {
-                    String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                                "<!DOCTYPE directory SYSTEM \"http://sym.iict.ch/directory.dtd\">\n" +
-                                "<directory />";
-                    managerXml.sendRequest(xml, "https://sym.iict.ch/rest/xml");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                textView.setText("Waiting...");
-                break;
-            default:
-                log.warning("The button doesn't exists !");
-        }
     }
 }

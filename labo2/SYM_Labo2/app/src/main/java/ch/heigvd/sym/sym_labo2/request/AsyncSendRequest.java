@@ -19,13 +19,19 @@ import ch.heigvd.sym.sym_labo2.Utils.CompressRequest;
 import ch.heigvd.sym.sym_labo2.request.Model.RequestInfo;
 
 /**
- * Created by Daniel on 29.10.2017.
+ * Send an asynchronous HTTP request.
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
 public class AsyncSendRequest extends AsyncTask<Void, String, String> {
 
     private RequestInfo requestInfo;
     private RequestResult result;
 
+    /**
+     * Constructor
+     * @param requestInfo The information about the request that should be sent.
+     * @param result The RequestResult that should be notified when the response is received.
+     */
     public AsyncSendRequest(RequestInfo requestInfo, RequestResult result) {
         this.requestInfo = requestInfo;
         this.result = result;
@@ -55,7 +61,9 @@ public class AsyncSendRequest extends AsyncTask<Void, String, String> {
 
             if (compressedRequest) {
                 byte[] bytes = requestInfo.getBody().getBytes("UTF-8");
+                Log.i("AsyncSendRequest", "Msg size: " + bytes.length + " bytes");
                 bytes = CompressRequest.compress(bytes);
+                Log.i("AsyncSendRequest", "Compressed msg size: " + bytes.length + " bytes");
             } else {
                 // send data
                 try {

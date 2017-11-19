@@ -33,6 +33,14 @@ package ch.heigvd.sym.sym_labo2.request;
 
 import java.util.EventListener;
 
+/**
+ * Interface used to allow an action to be done when the transmission response has been received.
+ */
 public interface CommunicationEventListener extends EventListener {
+	/**
+	 * Is called when the server response has arrived.
+	 * @param response The content of the response.
+	 * @return A boolean which purpose is unknown.
+	 */
 	boolean handleServerResponse(String response);
 }

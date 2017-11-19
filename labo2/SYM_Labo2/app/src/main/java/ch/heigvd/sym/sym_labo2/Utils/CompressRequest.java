@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
+/**
+ * Utilitary class to compress arrays of bytes.
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
+ */
 public class CompressRequest {
     public static byte[] compress(byte[] input) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();

@@ -4,16 +4,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import ch.heigvd.sym.sym_labo2.request.AsyncSendRequest;
 import ch.heigvd.sym.sym_labo2.request.Model.RequestInfo;
 import ch.heigvd.sym.sym_labo2.request.RequestResult;
 
 /**
- * Created by daniel on 30.10.17.
+ * Request manager to send XML content.
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
-
 public class XMLRequestManager extends BaseRequestManager {
+
+    private static final Logger LOG = Logger.getLogger(XMLRequestManager.class.getSimpleName());
+
     @Override
     public String sendRequest(String request, String url) throws MalformedURLException {
         Map<String, String> headers = new HashMap<>();
@@ -23,7 +27,7 @@ public class XMLRequestManager extends BaseRequestManager {
 
         new AsyncSendRequest(requestInfo, this).execute();
 
-        System.out.println(requestInfo.toString());
+        LOG.info(requestInfo.toString());
         return requestInfo.toString();
     }
 }

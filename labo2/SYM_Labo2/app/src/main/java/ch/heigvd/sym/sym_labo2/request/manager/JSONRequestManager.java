@@ -7,16 +7,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import ch.heigvd.sym.sym_labo2.request.AsyncSendRequest;
 import ch.heigvd.sym.sym_labo2.request.Model.RequestInfo;
 import ch.heigvd.sym.sym_labo2.request.RequestResult;
 
 /**
- * Created by daniel on 30.10.17.
+ * Request manager to send JSON content.
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
-
 public class JSONRequestManager extends BaseRequestManager {
+
+    private static final Logger LOG = Logger.getLogger(JSONRequestManager.class.getSimpleName());
+
     @Override
     public String sendRequest(String request, String url) throws MalformedURLException {
         Map<String, String> headers = new HashMap<>();
@@ -26,7 +30,7 @@ public class JSONRequestManager extends BaseRequestManager {
 
         new AsyncSendRequest(requestInfo, this).execute();
 
-        System.out.println(requestInfo.toString());
+        LOG.info(requestInfo.toString());
         return requestInfo.toString();
     }
 
@@ -34,7 +38,7 @@ public class JSONRequestManager extends BaseRequestManager {
     public void onFinished(String output) {
         try {
             output = new JSONObject(output).toString(2);
-            listener.handleServerResponse(output);
+            super.onFinished(output);
         } catch (JSONException e) {
             e.printStackTrace();
         }

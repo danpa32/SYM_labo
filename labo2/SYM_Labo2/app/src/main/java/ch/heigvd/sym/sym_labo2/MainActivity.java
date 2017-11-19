@@ -12,12 +12,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ch.heigvd.sym.sym_labo2.fragment.Home;
 import ch.heigvd.sym.sym_labo2.fragment.TransmissionAsync;
 import ch.heigvd.sym.sym_labo2.fragment.TransmissionCompressed;
 import ch.heigvd.sym.sym_labo2.fragment.TransmissionDelayed;
 import ch.heigvd.sym.sym_labo2.fragment.TransmissionOfObjects;
 import ch.heigvd.sym.sym_labo2.request.manager.DelayedRequestManager;
 
+/**
+ * Main activity of the application, allows the navigation between the fragments.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -84,6 +88,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Display the fragment associated with the itemId.
+     * @param itemId The id of the nav element.
+     */
     private void displaySelectedScreen(int itemId) {
         //creating fragment object
         Fragment fragment = null;

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import ch.heigvd.sym.sym_labo2.request.AsyncSendRequest;
 import ch.heigvd.sym.sym_labo2.request.Model.RequestInfo;
