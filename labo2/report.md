@@ -63,6 +63,7 @@ L'établissement d'une connxion par transmission différée permet de garder un 
 
 L'inconvénient est que le message doit être validé par le serveur. Avec un service de validation comme DTD, il est plus facile pour le serveur et pour le client de valider la structure des données reçues ou envoyées. Cependant, l'avantage du format JSON est qu'il est bien plus lgéer que le XML, ce qui permet d'obtenir de meilleures performances lors de la transmission.
 
+On peut tout à fait utiliser le contenu binaire de Protocol Buffer comme contenu du corps de la requête HTTP. L'avantage est diminution de la taille de la serialization, par contre lors du debugage le contenu n'est pas lisible en clair.
 
 ## Transmission compressée
 
