@@ -15,14 +15,24 @@ import ch.heigvd.sym.sym_labo2.request.AsyncSendRequest;
 import ch.heigvd.sym.sym_labo2.request.Model.RequestInfo;
 
 /**
- * Created by daniel on 30.10.17.
- * <p>
- * TODO -> Création d'une file d'attente
+ * Request manager to send content, if the server can not be reached, try to send the content
+ * periodically.
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
-
 public class DelayedRequestManager extends BaseRequestManager {
+    /**
+     * Request that the manager will send
+     */
     private RequestInfo requestInfo;
+
+    /**
+     * Queue for the pending requests (that hasn't been send because of network unavailability)
+     */
     private Queue<RequestInfo> pendingRequests;
+
+    /**
+     * Task that will be run to retry sending request
+     */
     private CustomTimerTask timerTask;
 
     public DelayedRequestManager() {
@@ -60,6 +70,10 @@ public class DelayedRequestManager extends BaseRequestManager {
             Log.i("DelayedRequest", "Request queued");
             displayQueueState();
         } else {
+            /**
+             * Once a request has been processed, display its result and process the next one waiting
+             * if there is one.
+             */
             Log.i("DelayedRequest", "Request processed");
             displayQueueState();
             listener.handleServerResponse(output);
@@ -67,6 +81,9 @@ public class DelayedRequestManager extends BaseRequestManager {
         }
     }
 
+    /**
+     * Check if there is waiting requests and process the first one.
+     */
     private void processNextWaitingRequest() {
         if (!pendingRequests.isEmpty()) {
             final DelayedRequestManager manager = this;
@@ -75,6 +92,9 @@ public class DelayedRequestManager extends BaseRequestManager {
         }
     }
 
+    /**
+     * Give a feedback of the queue's state in the logs.
+     */
     private void displayQueueState() {
         String display = "<";
 
@@ -90,6 +110,9 @@ public class DelayedRequestManager extends BaseRequestManager {
         Log.i("DelayedRequest", "Queue state : " + display);
     }
 
+    /**
+     * This task will process the first waiting request.
+     */
     private class CustomTimerTask extends TimerTask {
         private boolean scheduled = true;
 
