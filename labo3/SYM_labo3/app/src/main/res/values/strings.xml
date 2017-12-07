@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">SYM_labo3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_home">Accueil</string>
+    <string name="home_msg">Cette application a été créé pour le 3ème laboratoire du cours SYM à la HEIG-VD.</string>
+    <string name="title_nfc">NFC</string>
+    <string name="title_bar_code">BarCode</string>
+    <string name="title_ibeacon">IBeacon</string>
+    <string name="title_compass">Compass</string>
+    <string name="nfc_title">Identification par NFC</string>
+    <string name="password_and_nfc">Password and NFC</string>
+    <string name="password_or_nfc">Password or NFC</string>
+    <string name="please_enter_your_password">Please enter your password</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="nfc_indication">Use your NFC to validate your credentials</string>
+    <string name="btn_submit_txt">Submit</string>
+    <string name="or_txt">OR</string>
+</resources>
