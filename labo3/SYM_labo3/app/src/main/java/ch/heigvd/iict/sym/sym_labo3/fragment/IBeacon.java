@@ -1,95 +1,184 @@
 package ch.heigvd.iict.sym.sym_labo3.fragment;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
+
+import java.util.Collection;
+import java.util.HashMap;
 
 import ch.heigvd.iict.sym.sym_labo3.R;
+import ch.heigvd.iict.sym.sym_labo3.model.BeaconSummary;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link IBeacon.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link IBeacon#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class IBeacon extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class IBeacon extends Fragment implements BeaconConsumer {
+    protected static final String TAG = "Monitoring";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    private BeaconManager beaconManager;
 
-    private OnFragmentInteractionListener mListener;
+    private View view;
+    private TextView textView;
+    // List of summarry info on Beacon. Use to not recreate all the list of Beacon but just update
+    // the info
+    private HashMap<String, BeaconSummary> beaconsList;
+    private StringBuilder strBuilder;
 
     public IBeacon() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment IBeacon.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static IBeacon newInstance(String param1, String param2) {
-        IBeacon fragment = new IBeacon();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        strBuilder = new StringBuilder();
+        beaconsList = new HashMap<>();
+
+        beaconManager = BeaconManager.getInstanceForApplication(getApplicationContext());
+
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
+        beaconManager.bind(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ibeacon, container, false);
+        view = inflater.inflate(R.layout.fragment_ibeacon, container, false);
+
+        textView = (TextView) view.findViewById(R.id.beacon_textview);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (this.getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setTitle("This app needs location access");
+                builder.setMessage("You need to grant this app location access so it can detect beacons");
+                builder.setPositiveButton(android.R.string.ok, null);
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+                    }
+                });
+                builder.show();
+            }
+        }
+
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        beaconManager.unbind(this);
+    }
+
+    @Override
+    public void onBeaconServiceConnect() {
+        beaconManager.addRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
+                // check if there is beacon
+                if (collection.size() > 0) {
+                    BeaconSummary curr;
+
+                    for (Beacon b : collection) {
+                        if (!beaconsList.containsKey(b.getBluetoothName())) {
+                            // Create a summary of the beacon
+                            curr = new BeaconSummary(
+                                    b.getBluetoothName(),
+                                    b.getId2().toString(),
+                                    b.getId3().toString(),
+                                    b.getBluetoothAddress(),
+                                    b.getRssi(),
+                                    b.getDistance());
+                            beaconsList.put(curr.getName(), curr);
+                        }
+                        else {
+                            curr = beaconsList.get(b.getBluetoothName());
+                            curr.setDistance(b.getDistance());
+                            curr.setRssi(b.getRssi());
+                        }
+                    }
+                    strBuilder = new StringBuilder();
+                    for (BeaconSummary b : beaconsList.values()) {
+                        strBuilder.append("Name : ").append(b.getName())
+                                .append("Minor : ").append(b.getMinor())
+                                .append("Major : ").append(b.getMajor())
+                                .append("Address : ").append(b.getAddress())
+                                .append("RSSI : ").append(b.getRssi())
+                                .append("Distance : ").append(b.getDistance())
+                                .append("\n\n");
+                    }
+                    textView.setText(strBuilder);
+                }
+            }
+        });
+
+        try {
+            beaconManager.startRangingBeaconsInRegion(new Region("DanChrisGuil", null, null, null));
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public Context getApplicationContext() {
+        return this.getContext();
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void unbindService(ServiceConnection serviceConnection) {
+        this.getContext().unbindService(serviceConnection);
+    }
+
+    @Override
+    public boolean bindService(Intent intent, ServiceConnection serviceConnection, int i) {
+        return this.getContext().bindService(intent, serviceConnection, i);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_COARSE_LOCATION: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "coarse location permission granted");
+                } else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+                    builder.setTitle("Functionality limited");
+                    builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                        }
+
+                    });
+                    builder.show();
+                }
+                break;
+            }
+        }
     }
 
     /**

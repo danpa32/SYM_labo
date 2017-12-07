@@ -22,4 +22,5 @@
     <string name="nfc_indication">Use your NFC to validate your credentials</string>
     <string name="btn_submit_txt">Submit</string>
     <string name="or_txt">OR</string>
+    <string name="beacon_list">Beacon list</string>
 </resources>
