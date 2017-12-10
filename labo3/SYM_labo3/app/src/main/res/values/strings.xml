@@ -23,4 +23,12 @@
     <string name="btn_submit_txt">Submit</string>
     <string name="or_txt">OR</string>
     <string name="beacon_list">Beacon list</string>
+    <string name="logged_access_txt">Security level content page</string>
+    <string name="btn_authenticate_max_txt">AUTHENTICATE_MAX</string>
+    <string name="btn_authenticate_medium_txt">AUTHENTICATE_MEDIUM</string>
+    <string name="btn_authenticate_low_txt">AUTHENTICATE_LOW</string>
+    <string name="title_activity_logged_access">LoggedAccess</string>
+    <string name="security_logged_txt">Put your NFC TAG to update your security</string>
+    <string name="nfc_disabled_txt">NFC is disabled.</string>
+    <string name="no_nfc_tag_txt">No NFC TAG</string>
 </resources>

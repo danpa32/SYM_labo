@@ -58,15 +58,7 @@ public class IBeacon extends Fragment implements BeaconConsumer {
 
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
         beaconManager.bind(this);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_ibeacon, container, false);
-
-        textView = (TextView) view.findViewById(R.id.beacon_textview);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (this.getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
@@ -82,6 +74,15 @@ public class IBeacon extends Fragment implements BeaconConsumer {
                 builder.show();
             }
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_ibeacon, container, false);
+
+        textView = (TextView) view.findViewById(R.id.beacon_textview);
 
         return view;
     }
@@ -122,20 +123,25 @@ public class IBeacon extends Fragment implements BeaconConsumer {
                     strBuilder = new StringBuilder();
                     for (BeaconSummary b : beaconsList.values()) {
                         strBuilder.append("Name : ").append(b.getName())
-                                .append("Minor : ").append(b.getMinor())
-                                .append("Major : ").append(b.getMajor())
-                                .append("Address : ").append(b.getAddress())
-                                .append("RSSI : ").append(b.getRssi())
-                                .append("Distance : ").append(b.getDistance())
+                                .append("\nMinor : ").append(b.getMinor())
+                                .append("\nMajor : ").append(b.getMajor())
+                                .append("\nAddress : ").append(b.getAddress())
+                                .append("\nRSSI : ").append(b.getRssi())
+                                .append("\nDistance : ").append(b.getDistance())
                                 .append("\n\n");
                     }
-                    textView.setText(strBuilder);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            textView.setText(strBuilder.toString());
+                        }
+                    });
                 }
             }
         });
 
         try {
-            beaconManager.startRangingBeaconsInRegion(new Region("DanChrisGuil", null, null, null));
+            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
         } catch (RemoteException e) {
             e.printStackTrace();
         }

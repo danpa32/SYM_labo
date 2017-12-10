@@ -1,95 +1,136 @@
 package ch.heigvd.iict.sym.sym_labo3.fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import ch.heigvd.iict.sym.sym_labo3.R;
+import ch.heigvd.iict.sym.sym_labo3.auth.LoggedAccess;
+import ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask;
+import ch.heigvd.iict.sym.sym_labo3.utils.TagRequest;
+import ch.heigvd.iict.sym.sym_labo3.utils.listener.ICommunicationEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CredentialsOrNFC.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CredentialsOrNFC#newInstance} factory method to
- * create an instance of this fragment.
- */
+import static ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask.setupForegroundDispatch;
+import static ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask.stopForegroundDispatch;
+
 public class CredentialsOrNFC extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private EditText password;
+    private TextView nfcPassText;
+    private TextView nfcPassDevice;
+    private Button btnSubmit;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private NfcAdapter nfcAdapter;
 
-    private OnFragmentInteractionListener mListener;
+    private String currAuthTag;
+    private final String TAG = this.getClass().getName();
+
+    private final static String DEFAULT_PASS = "test";
 
     public CredentialsOrNFC() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CredentialsOrNFC.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CredentialsOrNFC newInstance(String param1, String param2) {
-        CredentialsOrNFC fragment = new CredentialsOrNFC();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this.getContext());
+
+        if (nfcAdapter == null) {
+            // Stop here, we definitely need NFC
+            Toast.makeText(this.getContext(), "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_credentials_or_nfc, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_credentials_and_nfc, container, false);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+        //Set GUI objects
+        password = (EditText) view.findViewById(R.id.psw);
+        nfcPassText = (TextView) view.findViewById(R.id.nfc_indication_txt);
+        nfcPassDevice = (TextView) view.findViewById(R.id.nfc_and_pass_device);
+        btnSubmit = (Button) view.findViewById(R.id.button);
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (currAuthTag == null) {
+                    if (password.length() == 0) {
+                        Toast.makeText(getContext(), "You need a password or NFC TAG to be logged !", Toast.LENGTH_LONG).show();
+                    } else if (!password.getText().toString().equals(DEFAULT_PASS)) {
+                        Toast.makeText(getContext(), "Wrong password !", Toast.LENGTH_LONG).show();
+                    } else {
+                        Intent intent = new Intent(getActivity().getBaseContext(), LoggedAccess.class);
+                        Bundle b = new Bundle();
+                        b.putString("AUTH_TAG", null);
+                        intent.putExtras(b);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                } else {
+                    Intent intent = new Intent(getActivity().getBaseContext(), LoggedAccess.class);
+                    Bundle b = new Bundle();
+                    b.putString("AUTH_TAG", currAuthTag);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+        });
+
+        if (!nfcAdapter.isEnabled()) {
+            nfcPassText.setText(R.string.nfc_disabled_txt);
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            nfcPassText.setText(R.string.nfc_indication);
         }
+
+        return view;
+    }
+
+    public void handleIntent(Intent intent) {
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        if (tag == null) {
+            if (currAuthTag == null) {
+                nfcPassDevice.setText(R.string.no_nfc_tag_txt);
+                return;
+            }
+        }
+        new NdefReaderTask().execute(new TagRequest(tag, new ICommunicationEventListener() {
+            @Override
+            public boolean handleServerResponse(ArrayList<String> response) {
+                currAuthTag = response.get(1);
+                nfcPassDevice.setText("Auth TAG : " + currAuthTag);
+                return true;
+            }
+        }));
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onResume() {
+        super.onResume();
+        setupForegroundDispatch(this.getActivity(), nfcAdapter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (nfcAdapter != null) {
+            stopForegroundDispatch(this.getActivity(), nfcAdapter);
+        }
     }
 
     /**
@@ -107,3 +148,4 @@ public class CredentialsOrNFC extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 }
+
