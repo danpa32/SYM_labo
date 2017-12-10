@@ -31,4 +31,7 @@
     <string name="security_logged_txt">Put your NFC TAG to update your security</string>
     <string name="nfc_disabled_txt">NFC is disabled.</string>
     <string name="no_nfc_tag_txt">No NFC TAG</string>
+    <string name="scan_result_txt">Result</string>
+    <string name="btn_1d_txt">1D</string>
+    <string name="btn_2d_txt">2D</string>
 </resources>

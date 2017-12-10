@@ -4,10 +4,28 @@
     android:layout_height="match_parent"
     tools:context="ch.heigvd.iict.sym.sym_labo3.fragment.BarCode">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/scan1D"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_1d_txt" />
+
+        <Button
+            android:id="@+id/scan2D"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_2d_txt" />
+
+        <TextView
+            android:id="@+id/scan_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/scan_result_txt" />
+    </LinearLayout>
 
 </FrameLayout>
