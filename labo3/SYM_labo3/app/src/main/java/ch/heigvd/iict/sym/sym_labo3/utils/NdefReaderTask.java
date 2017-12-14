@@ -1,26 +1,22 @@
 package ch.heigvd.iict.sym.sym_labo3.utils;
 
-/**
- * Created by daniel on 08.12.17.
- */
-
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.FormatException;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
-import android.util.Log;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import ch.heigvd.iict.sym.sym_labo3.utils.listener.ICommunicationEventListener;
+import java.util.List;
 
 /**
  * Background task for reading the data. Do not block the UI thread while reading.
@@ -28,15 +24,16 @@ import ch.heigvd.iict.sym.sym_labo3.utils.listener.ICommunicationEventListener;
  * @author Ralf Wondratschek
  *
  */
-public class NdefReaderTask extends AsyncTask<TagRequest, Void, ArrayList<String>> {
+public class NdefReaderTask extends AsyncTask<Tag,Void,List<String>> {
+    private IOnResult resultHandler;
 
-    private final String TAG = this.getClass().getName();
-    private ICommunicationEventListener listener;
+    public NdefReaderTask(IOnResult resultHandler) {
+        this.resultHandler = resultHandler;
+    }
 
     @Override
-    protected ArrayList<String> doInBackground(TagRequest... params) {
-        Tag tag = params[0].getTag();
-        listener = params[0].getListener();
+    protected List<String> doInBackground(Tag... params) {
+        Tag tag = params[0];
 
         Ndef ndef = Ndef.get(tag);
         if (ndef == null) {
@@ -44,24 +41,27 @@ public class NdefReaderTask extends AsyncTask<TagRequest, Void, ArrayList<String
             return null;
         }
 
-        NdefMessage ndefMessage = ndef.getCachedNdefMessage();
+        ArrayList<String> results = null;
+        try {
+            ndef.connect();
+            NdefMessage ndefMessage = ndef.getNdefMessage();
 
-        NdefRecord[] records = ndefMessage.getRecords();
-        ArrayList<String> results = new ArrayList<>();
-        for (NdefRecord ndefRecord : records) {
-            if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
-                try {
+            results = new ArrayList<>();
+            for (NdefRecord ndefRecord : ndefMessage.getRecords()) {
+                if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
                     results.add(readText(ndefRecord));
-                } catch (UnsupportedEncodingException e) {
-                    Log.e(TAG, "Unsupported Encoding", e);
                 }
             }
+
+            ndef.close();
+        } catch (IOException | FormatException e) {
+            e.printStackTrace();
         }
 
         return results;
     }
 
-    private String readText(NdefRecord record) throws UnsupportedEncodingException {
+    private static String readText(NdefRecord record) throws UnsupportedEncodingException {
         /*
          * See NFC forum specification for "Text Record Type Definition" at 3.2.1
          *
@@ -88,10 +88,8 @@ public class NdefReaderTask extends AsyncTask<TagRequest, Void, ArrayList<String
     }
 
     @Override
-    protected void onPostExecute(ArrayList<String> result) {
-        if (result != null) {
-            listener.handleServerResponse(result);
-        }
+    protected void onPostExecute(List<String> result) {
+        resultHandler.handleResult(result);
     }
 
     public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
@@ -115,5 +113,9 @@ public class NdefReaderTask extends AsyncTask<TagRequest, Void, ArrayList<String
 
     public static void stopForegroundDispatch(final Activity activity, NfcAdapter adapter) {
         adapter.disableForegroundDispatch(activity);
+    }
+
+    public interface IOnResult {
+        void handleResult(List<String> result);
     }
 }

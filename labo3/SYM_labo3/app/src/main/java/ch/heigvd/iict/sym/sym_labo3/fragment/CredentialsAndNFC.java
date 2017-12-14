@@ -1,12 +1,10 @@
 package ch.heigvd.iict.sym.sym_labo3.fragment;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,27 +13,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import ch.heigvd.iict.sym.sym_labo3.MainActivity;
 import ch.heigvd.iict.sym.sym_labo3.R;
 import ch.heigvd.iict.sym.sym_labo3.auth.LoggedAccess;
 import ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask;
-import ch.heigvd.iict.sym.sym_labo3.utils.TagRequest;
-import ch.heigvd.iict.sym.sym_labo3.utils.listener.ICommunicationEventListener;
 
-import static ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask.setupForegroundDispatch;
-import static ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask.stopForegroundDispatch;
-
-public class CredentialsAndNFC extends Fragment {
+public class CredentialsAndNFC extends Fragment implements INfcHandler {
     private EditText password;
     private TextView nfcPassText;
     private TextView nfcPassDevice;
     private Button btnSubmit;
 
-    private NfcAdapter nfcAdapter;
-
-    private String currAuthTag;
-    private final String TAG = this.getClass().getName();
+    private LoggedAccess access;
+    private String currAuthTag = null;
 
     private final static String DEFAULT_PASS = "test";
 
@@ -46,12 +38,8 @@ public class CredentialsAndNFC extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this.getContext());
 
-        if (nfcAdapter == null) {
-            // Stop here, we definitely need NFC
-            Toast.makeText(this.getContext(), "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
-        }
+        access = ((MainActivity)this.getActivity()).getLoggedAccess();
     }
 
     @Override
@@ -61,10 +49,10 @@ public class CredentialsAndNFC extends Fragment {
         View view = inflater.inflate(R.layout.fragment_credentials_and_nfc, container, false);
 
         //Set GUI objects
-        password = (EditText) view.findViewById(R.id.psw);
-        nfcPassText = (TextView) view.findViewById(R.id.nfc_indication_txt);
-        nfcPassDevice = (TextView) view.findViewById(R.id.nfc_and_pass_device);
-        btnSubmit = (Button) view.findViewById(R.id.button);
+        password = view.findViewById(R.id.psw);
+        nfcPassText = view.findViewById(R.id.nfc_indication_txt);
+        nfcPassDevice = view.findViewById(R.id.nfc_and_pass_device);
+        btnSubmit = view.findViewById(R.id.button);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,17 +62,14 @@ public class CredentialsAndNFC extends Fragment {
                 } else if (!password.getText().toString().equals(DEFAULT_PASS)) {
                     Toast.makeText(getContext(), "Wrong password !", Toast.LENGTH_LONG).show();
                 } else {
-                    Intent intent = new Intent(getActivity().getBaseContext(), LoggedAccess.class);
-                    Bundle b = new Bundle();
-                    b.putString("AUTH_TAG", currAuthTag);
-                    intent.putExtras(b);
-                    startActivity(intent);
-                    getActivity().finish();
+                    access.setAsLogged(currAuthTag);
+                    ((MainActivity)CredentialsAndNFC.this.getActivity()).reopenFragment();
                 }
             }
         });
 
-        if (!nfcAdapter.isEnabled()) {
+        // Check if NFC is enabled
+        if (!NfcAdapter.getDefaultAdapter(getActivity()).isEnabled()) {
             nfcPassText.setText(R.string.nfc_disabled_txt);
         } else {
             nfcPassText.setText(R.string.nfc_indication);
@@ -93,36 +78,19 @@ public class CredentialsAndNFC extends Fragment {
         return view;
     }
 
-    public void handleIntent(Intent intent) {
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        if (tag == null) {
-            if (currAuthTag == null) {
-                nfcPassDevice.setText(R.string.no_nfc_tag_txt);
-                return;
-            }
-        }
-        new NdefReaderTask().execute(new TagRequest(tag, new ICommunicationEventListener() {
+    @Override
+    public void onNfcTagDetected(Tag tag) {
+        new NdefReaderTask(new NdefReaderTask.IOnResult() {
             @Override
-            public boolean handleServerResponse(ArrayList<String> response) {
-                currAuthTag = response.get(1);
-                nfcPassDevice.setText("Auth TAG : " + currAuthTag);
-                return true;
+            public void handleResult(List<String> result) {
+                if(result.isEmpty()) {
+                    Toast.makeText(getActivity(), "TAG is empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    currAuthTag = result.get(0);
+                    nfcPassDevice.setText("Auth TAG : " + currAuthTag);
+                }
             }
-        }));
-    }
-    
-    @Override
-    public void onResume() {
-        super.onResume();
-        setupForegroundDispatch(this.getActivity(), nfcAdapter);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (nfcAdapter != null) {
-            stopForegroundDispatch(this.getActivity(), nfcAdapter);
-        }
+        }).execute(tag);
     }
 
     /**

@@ -27,11 +27,17 @@
     <string name="btn_authenticate_max_txt">AUTHENTICATE_MAX</string>
     <string name="btn_authenticate_medium_txt">AUTHENTICATE_MEDIUM</string>
     <string name="btn_authenticate_low_txt">AUTHENTICATE_LOW</string>
+    <string name="btn_disconnect_txt">DISCONNECT</string>
+    <string name="btn_refresh_txt">REFRESH</string>
     <string name="title_activity_logged_access">LoggedAccess</string>
     <string name="security_logged_txt">Put your NFC TAG to update your security</string>
+    <string name="security_level_txt">Last security level</string>
     <string name="nfc_disabled_txt">NFC is disabled.</string>
     <string name="no_nfc_tag_txt">No NFC TAG</string>
     <string name="scan_result_txt">Result</string>
     <string name="btn_1d_txt">1D</string>
     <string name="btn_2d_txt">2D</string>
+    <string name="tag_detected">A tag has been detected !</string>
+    <string name="sym_labo_3">SYM - Labo 3</string>
+    <string name="unsufficient_auth_lvl">Your access level is not high enough. Please refresh your security or get a promotion from your superior</string>
 </resources>
