@@ -14,7 +14,7 @@ public class LoggedAccess {
 
     /**
      * Get the security level
-     * @return the security level.
+     * @return the current security level.
      */
     public int getSecurityLevel() {
         long tAuthAccess = System.currentTimeMillis();
@@ -26,15 +26,27 @@ public class LoggedAccess {
         return mySecurityLevel < NO_AUTH ? NO_AUTH : mySecurityLevel;
     }
 
+    /**
+     * Set the current session as unlogged.
+     */
     public void setAsUnlogged() {
         tAuthStart = 0;
     }
 
+    /**
+     * Set the current session as logged
+     * @param authTag The tag used to log in.
+     */
     public void setAsLogged(String authTag) {
         currAuthTag = authTag;
         tAuthStart = System.currentTimeMillis();
     }
 
+    /**
+     * Update the authorization level with the given tag
+     * @param authTag The tag used to update the authorization level.
+     * @return True if the update has been accepted, false otherwise.
+     */
     public boolean updateAuth(String authTag) {
         if(currAuthTag == null) {
             currAuthTag = authTag; // Associate the given tag with the "session"

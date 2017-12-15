@@ -19,18 +19,27 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Background task for reading the data. Do not block the UI thread while reading.
+ * Background task for reading the data from a tag. Do not block the UI thread while reading.
  *
- * @author Ralf Wondratschek
+ * @author Ralf Wondratschek (orignal)
  *
  */
 public class NdefReaderTask extends AsyncTask<Tag,Void,List<String>> {
     private IOnResult resultHandler;
 
+    /**
+     * Constructor.
+     * @param resultHandler The handler which will receive the result of the task.
+     */
     public NdefReaderTask(IOnResult resultHandler) {
         this.resultHandler = resultHandler;
     }
 
+    /**
+     * Read the content of the tag in the background.
+     * @param params The tag which content should be read. (Only the first element of the array is used)
+     * @return The list of content.
+     */
     @Override
     protected List<String> doInBackground(Tag... params) {
         Tag tag = params[0];
@@ -61,6 +70,12 @@ public class NdefReaderTask extends AsyncTask<Tag,Void,List<String>> {
         return results;
     }
 
+    /**
+     * Read the content of NDEF text tag.
+     * @param record The NDEF record.
+     * @return The content of the record as a string.
+     * @throws UnsupportedEncodingException if the encoding is not supported.
+     */
     private static String readText(NdefRecord record) throws UnsupportedEncodingException {
         /*
          * See NFC forum specification for "Text Record Type Definition" at 3.2.1
@@ -92,6 +107,11 @@ public class NdefReaderTask extends AsyncTask<Tag,Void,List<String>> {
         resultHandler.handleResult(result);
     }
 
+    /**
+     * Start listening for NFC tag.
+     * @param activity The activity that should listen.
+     * @param adapter The adapter used to listen for NFC tag.
+     */
     public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
         final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -111,10 +131,18 @@ public class NdefReaderTask extends AsyncTask<Tag,Void,List<String>> {
         adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
     }
 
+    /**
+     * Stop listening for NFC tag.
+     * @param activity The activity that should stop listening.
+     * @param adapter The adapter used to listen for NFC tag.
+     */
     public static void stopForegroundDispatch(final Activity activity, NfcAdapter adapter) {
         adapter.disableForegroundDispatch(activity);
     }
 
+    /**
+     * Interface to handle the result of the reader.
+     */
     public interface IOnResult {
         void handleResult(List<String> result);
     }
