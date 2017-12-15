@@ -29,8 +29,6 @@ lang:           "fr"
 
 > *Quelle est la probabilité moyenne globale que des données soient perdues, dans le cas où il faut la balise ET le mot de passe, ainsi que dans le cas où il faut la balise OU le mot de passe (on négligera dans le calcul la probabilité de l’intersection des deux ensembles), ou encore le cas où seule la balise est nécessaire ?*
 
-
-
 Soient les événements suivants:
 
 - A = le mobile est volé par une personne malintentionnée et capable d'utiliser les données à des fins préjudiciables pour la société
@@ -92,7 +90,7 @@ La dernière solution offre une probabilité relativement faible de vol de donn�
 
 > *Peut-on améliorer la situation en introduisant un contrôle des informations d'authentification par un serveur éloigné (transmission d'un hash SHA256 du mot de passe et de la balise NFC) ? Si oui, à quelles conditions ? Quels inconvénients ?*
 
-Non, si le voleur possède le mot de passe et/ou le tag NFC, les credentials récupérés seront corrects et donc l'authentification réussira, peu importe si on hash le mot de passe ou le tag. Cependant, si le serveur distant donne un accès limité dans le temps ou simplement une accréditation de validité de la connexion temps que le vol n'a pas été rapporté. Dans ce cas le voleur a un temps d'accès limité pour accéder aux données (environ le temps que le vol a été annoncé et que les credentials ont été invalidés). Mais une telle solution aurait un avantage si :
+Non, si le voleur possède le mot de passe et/ou le tag NFC, les credentials récupérés seront corrects et donc l'authentification réussira, peu importe si on hash le mot de passe ou le tag. Cependant, si le serveur distant donne un accès limité dans le temps ou simplement une accréditation de validité de la connexion tant que le vol n'a pas été rapporté. Dans ce cas, le voleur n'aura qu'un temps d'accès limité aux données (environ le temps que le vol soit annoncé et que les credentials soitent invalidés). Mais une telle solution aurait un avantage si :
 
 - l'utilisateur s'est rapidement rendu compte du vol
 - il a la possibilité d'annoncer le vol (si on lui a pris son téléphone portable, difficile de contacter les personnes à prévenir)
@@ -100,5 +98,7 @@ Non, si le voleur possède le mot de passe et/ou le tag NFC, les credentials ré
 
 > *Proposer une stratégie permettant à la société UBIQOMP SA d'améliorer grandement son bilan sécuritaire, en détailler les inconvénients pour les utilisateurs et pour la société.*
 
+Sachant que les informations véhiculées sont précieuses, il est donc souhaitable de privilégier la sécurité plutôt que le confort des utilisateurs. Nous pouvons donc exclure la 2ème solution, car comme dit précédemment, elle possède la plus haute probabilité de vol de données. 
 
+Parmi les deux solutions restantes, c'est au choix de l'entreprise. Les avantages et inconvénients ont été exposés précédemment et bien que la probabilité de la première solution est la meilleure, la troisième solution n'en reste pas moins acceptable. 
 
