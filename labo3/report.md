@@ -130,7 +130,26 @@ Dans optique professionnelle, la technologie NFC est préférable à un reconnai
 
 **Grand public**
 
-???
+Dans l'optique grand publique, nous nous devons de prendre en compte différents points que nous considérons importants et qui sont :
+
+- L'authentification permanente 
+- L'authentification temporaire
+- La réalité augmentée
+- Les marques de téléphones portables
+
+Si nous considérons l'authentifcation permanente la technologie NFC a vu un succès grandissant au niveau des modes de payement pour de petit montant ou les abonnements (principalement lié aux transports public). En effet, elle peut suplenter les cartes de crédit et les cartes à puce électroniques permettant ainsi le paiement mobile qui complète ou même remplace ces systèmes. Nous pouvons citer comme exemple Google wallet qui permet aux utilisateurs de stocker des cartes de crédit et des informations sous forme de carte de fidélité dans un portefeuille virtuel, puis d'utiliser un appareil compatible NFC sur des terminaux acceptant les transactions MasterCard PayPass. Certains pays sont même allés plus loin et utilise à grand échelle la technologie NFC, comme la Chine dont les autobus possédent presque tous cette technologie faisant office de billetterie ou de scan d'abonnements. Enfin, la technologie peut également être utilisée en tant que serrure électronique pour ouvrir une porte comme la démontré la compagnie Yale Lock et qui permettrait un contrôle des accès à un immeuble ou une section dans un bâtiment. Bien que cette technologie offre des avantages de par son accès à courte proximité, il n'en ai pas moins que la sécurité et la confidentialité des données reste un sujet en plein débat. En effet, une des craintes et qu'un utilisateur malveillant pourrait lire les fréquences radios émises en passant proche du téléphone ou du portfeuille de la victime contenant des carte de crédits NFC. De même, ces utilisateurs malveillants pourraient accrochés un lecteur par dessus la serrure électronique afin de collecter des informations sur les applications contenues dans un téléphone portable (application Postfiance, banque, etc). Il n'en reste pas moins que la technologie NFC est plus difficile à falsifier qu'un simple code-barre.
+
+Si nous considérons l'authentification temporaire la technologie NFC à tendance à poser un problème de coût versus son utilité comparé à la technologie à code-barre. En effet, les dernières années ont montré que les code-barres, qu'ils soient imprimés ou affichés sur un écran, sont bien moins cher à placer en grand nombre et offre une certaine faciliter en tant que preuve d'achat. Nous les voyons souvent sur les produits (emballage alimentaires, jouets, etc) vendus au quotidien dans les grandes surfaces ou les boutiques ou en remplacement des billets classiques pour des festivals par exemple. De part leur simpliciter, leur faciliter dans leur reprogrammation dans le cas où l'information venait à être modifiée et le recyclage (pensons écologie) de leur support (souvent un bout de papier), elle permet un gain de coût et de temps considérable. 
+
+Si nous considérons la réalité augmentée, le domaine est en plein expension. L'application de la virtualisation du monde réelle pour l'échange d'information via nos sens est une avancée dont la technologie a code-barre à su plaire au grand public. Comme exemple, nous avons les musées qui de plus en plus place de tag NFC ou des QR codes sur les panneaux d'informations liés à des objets exposés pour informer plus en détails l'utilisateurs sur leurs histoires. La technologie à code-barre est également utilisé pour informer l'utilisateur sur l'horaire des transports publics ou l'itinéraire de ceux-ci.
+
+Le dernier point abordé de cet section est les marques de téléphones portables. Ce point nous semble important car bien que la technologie pour la lecture de code-barre se trouve dans presque tous les smartphones, ce n'est pas le cas, ou presque, pour la technologie NFC. Apple, qui possède une bonne part de marché dans la téléphonie mobile, n'a pas suivi le mouvement pour cette technologie. Cela ne fait que depuis l'iphone 7 ou 7 plus que la compagnie a décidé d'intégrer cette technologie ,et avec un stricte encadrement :
+
+- l'utilisateur ne peut que lire les données contenues dans un tag NFC, pas d'écriture possible,
+- la lecture est limitée aux tags contenant des données NDEF,
+- les fonctions du framework ne sont pas activées à l'échelle du système et l'utilisateur devra donc spécifiquement lancer une application qui prends en charge ce framework.
+
+Ainsi, pour l'utilisation dans le domaine du commerce (information sur les produits, etc) ou dans le monde de la culture (musées, etc), cela ne devrait pas poser de problèmes à l'utilisateur, si bien sûr il possède une version supérieur ou égales à l'iphone 7, mais dans le cas de paiment, cela ne semble pas possible. Cette technologie a donc également une limite de part son utilisation par certaines compagnies comparé à la technologie par code-barre.
 
 **Ludique**
 
