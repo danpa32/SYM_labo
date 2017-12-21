@@ -61,19 +61,27 @@ $P((D \cap C) \cup (A \cap B)) = P(S) \cdot P(C) + P(A) \cdot P(B) = P(D | A) \c
 
 $P(A) \cdot P(C) \cdot P(D | A) = 0.01 * 0.001 * 0.1 = 0.000001$
 
-> *si l’on envoie cent collaborateurs en déplacement, quel est le risque encouru de vol de données sensibles ?*
+> *Si l’on envoie cent collaborateurs en déplacement, quel est le risque encouru de vol de données sensibles ?*
+
+Pour le calcul de cette information, nous devons :
+
+1) Calculer la probabilité que le cas n'arrive pas
+2) Multiplier les probabilités suivants le nombre de collaborateurs. nous obtenons ainsi la probabilité que ce cas n'arrive pas pour x collaborteurs
+3) Calculer la probabilité que ce cas arrive pour x collaborateurs
 
 **Balise ET mot de passe**
 
-$1-(1-0.00000004) ^ 100 = 0.0000039$
+1) $1-0.00000004 = 0.99999996$
+2) $0.99999996^{100} = 0.999996$
+3) $1-0.999996 = 0.0000039$
 
 **Balise OU mot de passe**
 
-$1-(1-0.000401) ^ 100 = 0.03931$
+$1-(1-0.000401)^{100} = 0.03931$
 
 **Seulement la balise**
 
-$1-(1-0.000001) ^ 100 = 0.000099$
+$1-(1-0.000001)^{100} = 0.000099$
 
 ### Partie 2
 
@@ -97,13 +105,13 @@ Cette dernière solution n’a besoin que d’une balise et elle offre une proba
 
 > *Peut-on améliorer la situation en introduisant un contrôle des informations d’authentification par un serveur éloigné (transmission d’un hash SHA256 du mot de passe et de la balise NFC) ? Si oui, à quelles conditions ? Quels inconvénients ?*
 
-Non, si le voleur possède le mot de passe et/ou le tag NFC, les credentials récupérés seront corrects et donc l’authentification réussira, peu importe si l’on hash le mot de passe ou le tag. Cependant, si le serveur distant donne un accès limité dans le temps ou simplement une accréditation de validité de la connexion tant que le vol n’a pas été rapporté. Dans ce cas, le voleur n’aura qu’un temps d’accès limité aux données (environ le temps que le vol soit annoncé et que les credentials soient invalidés). Mais une telle solution aurait un avantage si :
+Non, dans un contexte où les données sont stockées en locale avec un chiffrement dont la clé est envoyée par le serveur, si le voleur possède le mot de passe et/ou le tag NFC, les credentials récupérés seront corrects et donc l’authentification réussira. Peu importe si l’on hash le mot de passe ou le tag, la clé sera envoyée au voleur et il pourra déchiffrer les données. Cependant, si le serveur distant donne un accès limité dans le temps ou simplement une accréditation de validité de la connexion tant que le vol n’a pas été rapporté, dans ce cas le voleur n’aura qu’un temps d’accès limité aux données (environ le temps que le vol soit annoncé et que les credentials soient invalidés). Mais une telle solution aurait un avantage si :
 
 - l’utilisateur s’est rapidement rendu compte du vol
 - il a la possibilité d’annoncer le vol (si on lui a pris son téléphone portable, difficile de contacter les personnes à prévenir)
 - les personnes s’occupant de la sécurité ont un accès rapide aux fonctionnalités de blocage de credentials.
 
-**!!! Problème, car les données sensibles sont stockées en local !!!**
+De plus, dans un contexte où les collaborateurs se trouvent dans une zone hors-réseau, ils ne pourront pas accéder aux données car le serveur distant n'est pas accessible et donc la mobilité du système perds tout son intérêt.
 
 ### Partie 4
 
