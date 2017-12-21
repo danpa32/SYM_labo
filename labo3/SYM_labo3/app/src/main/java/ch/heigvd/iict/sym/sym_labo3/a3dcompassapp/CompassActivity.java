@@ -1,12 +1,7 @@
 package ch.heigvd.iict.sym.sym_labo3.a3dcompassapp;
 
-import android.opengl.GLSurfaceView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
-
-import ch.heigvd.iict.sym.sym_labo3.R;
+import android.support.v7.app.AppCompatActivity;
 
 public class CompassActivity extends AppCompatActivity {
 

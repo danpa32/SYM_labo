@@ -29,6 +29,9 @@ import ch.heigvd.iict.sym.sym_labo3.fragment.LoggedCommands;
 import static ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask.setupForegroundDispatch;
 import static ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask.stopForegroundDispatch;
 
+/**
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 

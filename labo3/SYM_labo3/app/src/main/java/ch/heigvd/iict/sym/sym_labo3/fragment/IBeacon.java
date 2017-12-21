@@ -31,6 +31,9 @@ import java.util.HashMap;
 import ch.heigvd.iict.sym.sym_labo3.R;
 import ch.heigvd.iict.sym.sym_labo3.model.BeaconSummary;
 
+/**
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
+ */
 public class IBeacon extends Fragment implements BeaconConsumer {
     protected static final String TAG = "Monitoring";
 
@@ -107,8 +110,8 @@ public class IBeacon extends Fragment implements BeaconConsumer {
                             // Create a summary of the beacon
                             curr = new BeaconSummary(
                                     b.getBluetoothName(),
-                                    b.getId2().toString(),
                                     b.getId3().toString(),
+                                    b.getId2().toString(),
                                     b.getBluetoothAddress(),
                                     b.getRssi(),
                                     b.getDistance());

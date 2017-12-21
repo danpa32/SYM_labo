@@ -18,7 +18,9 @@ import ch.heigvd.iict.sym.sym_labo3.R;
 import ch.heigvd.iict.sym.sym_labo3.auth.LoggedAccess;
 import ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask;
 
-
+/**
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
+ */
 public class LoggedCommands extends Fragment implements INfcHandler {
 
     private TextView title = null;
@@ -112,6 +114,9 @@ public class LoggedCommands extends Fragment implements INfcHandler {
         return view;
     }
 
+    /**
+     * Refresh the information about the security level of the user.
+     */
     private void refreshSecurityLevelInfo() {
         securityLvlText.setText("Last seen security level is " + access.getSecurityLevel());
     }

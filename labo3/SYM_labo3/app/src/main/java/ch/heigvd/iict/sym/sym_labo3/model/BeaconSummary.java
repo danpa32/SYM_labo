@@ -1,9 +1,10 @@
 package ch.heigvd.iict.sym.sym_labo3.model;
 
 /**
- * Created by Daniel on 07.12.2017.
+ * Model of a beacon object with less information (Just that we want and a few more that we see as
+ * useful)
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
-
 public class BeaconSummary {
     private String name;
     private String minor;

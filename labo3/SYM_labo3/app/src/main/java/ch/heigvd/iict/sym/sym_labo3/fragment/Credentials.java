@@ -22,6 +22,7 @@ import ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask;
 
 /**
  * Fragment for entering credentials.
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
 public abstract class Credentials extends Fragment implements INfcHandler {
     protected EditText password;

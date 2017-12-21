@@ -1,15 +1,15 @@
 package ch.heigvd.iict.sym.sym_labo3.a3dcompassapp;
 
+import android.content.Context;
+import android.opengl.GLSurfaceView.Renderer;
+import android.opengl.GLU;
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
-import android.content.Context;
-import android.opengl.GLU;
-import android.opengl.GLSurfaceView.Renderer;
-import android.util.Log;
 
 import ch.heigvd.iict.sym.sym_labo3.a3dcompassapp.objects.ObjLoader;
 

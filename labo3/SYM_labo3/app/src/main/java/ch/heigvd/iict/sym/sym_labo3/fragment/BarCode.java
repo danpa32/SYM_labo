@@ -16,10 +16,20 @@ import com.google.zxing.integration.android.IntentResult;
 
 import ch.heigvd.iict.sym.sym_labo3.R;
 
+/**
+ * Fragment responsible for the reading of code bar and the display of the information contains in it.
+ * Utilise la librairie zxing.
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
+ */
 public class BarCode extends Fragment {
 
+    // Bouton utiliser pour activer le scan de code-barre 1D
     private Button scan1D = null;
+
+    // Bouton utiliser pour activer le scan de code-barre 2D
     private Button scan2D = null;
+
+    // Contenu du code-barres
     private TextView resultScan = null;
 
     public BarCode() {
@@ -45,6 +55,7 @@ public class BarCode extends Fragment {
             @Override
             public void onClick(View view) {
                 IntentIntegrator integrator = IntentIntegrator.forSupportFragment(BarCode.this);
+                integrator.setBeepEnabled(false);
                 integrator.initiateScan(IntentIntegrator.ONE_D_CODE_TYPES);
             }
         });
@@ -53,6 +64,7 @@ public class BarCode extends Fragment {
             @Override
             public void onClick(View view) {
                 IntentIntegrator integrator = IntentIntegrator.forSupportFragment(BarCode.this);
+                integrator.setBeepEnabled(false);
                 integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
             }
         });

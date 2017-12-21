@@ -2,6 +2,7 @@ package ch.heigvd.iict.sym.sym_labo3.auth;
 
 /**
  * Allow the setting of the current level of authorization.
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
 public class LoggedAccess {
     public static final int HIGH_AUTH = 10;
@@ -13,7 +14,7 @@ public class LoggedAccess {
     private long tAuthStart = 0;
 
     /**
-     * Get the security level
+     * Get the security level. The scurity level of the user is decremented by 1 every minutes.
      * @return the current security level.
      */
     public int getSecurityLevel() {
