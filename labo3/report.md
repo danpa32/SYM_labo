@@ -14,6 +14,8 @@ lang:           "fr"
 
 # Introduction
 
+Ce laboratoire a pour but de découvrir les différents capteurs prèsents dans un téléphone mobile. En effet il a permis l'apprentissage de la lecture des tags NFC, de la reconnaissance de codes-barres (1D et 2D) grâce à l'appareil photo intègré, de la détéction des balises iBeacon ainsi que de l'utilisation de l'accéléromètre et du magnétomètre. 
+
 # NFC
 
 ## Mise en situation
@@ -61,6 +63,8 @@ $P((D \cap C) \cup (A \cap B)) = P(S) \cdot P(C) + P(A) \cdot P(B) = P(D | A) \c
 
 $P(A) \cdot P(C) \cdot P(D | A) = 0.01 * 0.001 * 0.1 = 0.000001$
 
+### Partie 2
+
 > *Si l’on envoie cent collaborateurs en déplacement, quel est le risque encouru de vol de données sensibles ?*
 
 Pour le calcul de cette information, nous devons :
@@ -83,7 +87,7 @@ $1-(1-0.000401)^{100} = 0.03931$
 
 $1-(1-0.000001)^{100} = 0.000099$
 
-### Partie 2
+### Partie 3
 
 > *Mettez vos conclusions en rapport avec l’inconfort subjectif de chaque solution.*
 
@@ -101,7 +105,7 @@ Probablement la solution la moins contraignante consiste à demander soit un mot
 
 Cette dernière solution n’a besoin que d’une balise et elle offre une probabilité relativement faible d’un vol de données. Elle possède l’avantage de la 2e solution. En effet, il suffit simplement à l’utilisateur de "scanner" son badge pour accéder aux données. Cette solution serait donc à privilégier dans le cas où l’utilisateur veut accéder souvent à des informations relativement sensibles et dont l’utilisation de la première solution serait trop contraignante.
 
-### Partie 3
+### Partie 4
 
 > *Peut-on améliorer la situation en introduisant un contrôle des informations d’authentification par un serveur éloigné (transmission d’un hash SHA256 du mot de passe et de la balise NFC) ? Si oui, à quelles conditions ? Quels inconvénients ?*
 
@@ -113,7 +117,7 @@ Non, dans un contexte où les données sont stockées en locale avec un chiffrem
 
 De plus, dans un contexte où les collaborateurs se trouvent dans une zone hors-réseau, ils ne pourront pas accéder aux données car le serveur distant n'est pas accessible et donc la mobilité du système perds tout son intérêt.
 
-### Partie 4
+### Partie 5
 
 > *Proposer une stratégie permettant à la société UBIQOMP SA d’améliorer grandement son bilan sécuritaire, en détailler les inconvénients pour les utilisateurs et pour la société.*
 
@@ -132,11 +136,11 @@ Parmi les deux solutions restantes, c’est au choix de l’entreprise. Les avan
 - *Ludique (Preuves d’achat, publicité, etc.)*
 - *Financier (Coûts pour le déploiement de la technologie, possibilités de recyclage, etc.)*
 
-**Professionnelle**
+### Professionnelle
 
 Dans une optique professionnelle, la technologie NFC est préférable à une reconnaissance optique. Lorsqu’un utilisateur lit un code-barres, ce dernier est visible par tous et facilement copiable, même de loin, par toute personne possédant un appareil photo. De plus, la carte ou le bout de papier sur lequel le code-barres est imprimé peut être facilement perdu. A l’inverse, la balise NFC peut être attachée au porte-clés et un appareil doit se situer à quelques centimètres pour la copier.
 
-**Grand public**
+### Grand public
 
 Dans l’optique grand publique, nous nous devons de prendre en compte différents points que nous considérons comme importants et qui sont :
 
@@ -159,11 +163,11 @@ Le dernier point abordé de cette section est les marques de téléphones portab
 
 Ainsi, pour l’utilisation dans le domaine du commerce (information sur les produits, etc.) ou dans le monde de la culture (musées, etc.), cela ne devrait pas poser de problèmes à l’utilisateur, si bien sûr il possède une version supérieure ou égale à l’iPhone 7, mais dans le cas de paiement, cela ne semble pas possible. Cette technologie a donc également une limite de par son utilisation par certaines compagnies comparées à la technologie par code-barres.
 
-**Ludique**
+### Ludique
 
 L'utilisation ludique des 2 technologies se défendent. Dans le domaine du sport ou du jeu, les entreprises/compagnies peuvent utilisés la technologie NFC ou à code-barres pour créer des cartes à collectionner contenant des informations sur leurs sportifs favoris ou sur des personnages fictifs. Cette technique permettrait d'attirer les collectionneurs et/ou de fidéliser de nouveaux clients. De plus, afin que ces cartes ne soient pas en abondance, elles pourraient être gagnées qu'en réussissant une série de défi ou durant une période limitée. Un autre exemple serait l'utilisation de code-barre par des entreprises ou par la ville en les plaçant dans des lieux spécifiques afin que les utilisateurs obtiennent un pokémon dans l'application Pokémon Go en les scannant, ceci à des fins publicitaires.
 
-**Financier**
+### Financier
 
 Du point de vue financier, les code-barres sont très largement moins couteux que les balises NFC. Néanmoins, seules les balises peuvent être recyclées. Afin d’éviter le remplacement des code-barres, il est possible d’utiliser une indirection (le code-barres contient une adresse URL fixe qui est redirigée automatiquement vers le contenu souhaité).
 
@@ -190,3 +194,7 @@ L'accéléromètre quand à lui est très sensible, on remarque en posant le té
 Afin d'améliorer les données reçues des capteurs et supprimer les données parasites, on peut appliquer un «low-pass filter» afin de ne retenir que les valeurs qui nous intéressent. On définit un seuil (ALPHA dans notre code) et on «annule» les mesures dont la différence est inférieure au seuil.
 
 De ce fait, on évite les trop petites variations dues soit à des perturbations sur les capteurs soit à une «trop grande précision» de ces derniers. Ces tout petites variations sont caractérisées par un effet de tremblement de la flèche de la boussole. Il existe un second type de filtre que l'on aurait pu appliquer, le «high-pass filter» qui lui va atténuer les grandes variations. On aurait pu l'appliquer si l'on avait identifié des «sautes» de la flèche (qu'elle fasse un demi-tour durant un instant avant de revenir à sa position initiale, par exemple). Ces variations auraient pu survenir à cause de perturbations environnementales ou suite à un défaut du capteur.
+
+# Conclusion
+
+Ce laboratoire nous a permis de nous rendre compte que les informations recoltées par les capteurs ne sont pas toujours précises et qu'il faut donc pouvoir gérer ces écart (pafois significatifs).
