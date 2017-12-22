@@ -17,19 +17,19 @@ import com.google.zxing.integration.android.IntentResult;
 import ch.heigvd.iict.sym.sym_labo3.R;
 
 /**
- * Fragment responsible for the reading of code bar and the display of the information contains in it.
- * Utilise la librairie zxing.
+ * Fragment responsible for reading of code bar and displaying the information contained in it.
+ * Use the zxing library.
  * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
 public class BarCode extends Fragment {
 
-    // Bouton utiliser pour activer le scan de code-barre 1D
+    // Button used to activate the 1D barcode scanner.
     private Button scan1D = null;
 
-    // Bouton utiliser pour activer le scan de code-barre 2D
+    // Button used to activate the 2D barcode scanner.
     private Button scan2D = null;
 
-    // Contenu du code-barres
+    // Content of the barcode.
     private TextView resultScan = null;
 
     public BarCode() {
@@ -47,9 +47,9 @@ public class BarCode extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bar_code, container, false);
 
-        scan1D = (Button) view.findViewById(R.id.scan1D);
-        scan2D = (Button) view.findViewById(R.id.scan2D);
-        resultScan = (TextView) view.findViewById(R.id.scan_result);
+        scan1D = view.findViewById(R.id.scan1D);
+        scan2D = view.findViewById(R.id.scan2D);
+        resultScan = view.findViewById(R.id.scan_result);
 
         scan1D.setOnClickListener(new View.OnClickListener() {
             @Override

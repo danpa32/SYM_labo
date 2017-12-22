@@ -19,13 +19,12 @@ import ch.heigvd.iict.sym.sym_labo3.R;
 import ch.heigvd.iict.sym.sym_labo3.a3dcompassapp.OpenGLRenderer;
 
 /**
+ * This class displays a fragment containing a compass, represented by a 3D arrow.
  * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
- *         <p>
- *         This class displays a fragment containing a compass, represented by a 3D arrow.
  */
 public class Compass extends Fragment implements SensorEventListener {
     /**
-     * This constant is a threshold used in low-pass filter to avoid little variations.
+     * This constant is a threshold used by the low-pass filter to avoid small variations.
      */
     private static final float ALPHA = 0.8f;
 

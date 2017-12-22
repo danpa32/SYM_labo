@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import ch.heigvd.iict.sym.sym_labo3.R;
 
 /**
- * Main fragment. Launch when the application is launch.
+ * Main fragment. Shown when the application is launched.
  * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
 public class Home extends Fragment {

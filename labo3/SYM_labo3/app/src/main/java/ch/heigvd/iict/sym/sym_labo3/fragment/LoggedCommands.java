@@ -19,6 +19,8 @@ import ch.heigvd.iict.sym.sym_labo3.auth.LoggedAccess;
 import ch.heigvd.iict.sym.sym_labo3.utils.NdefReaderTask;
 
 /**
+ * Fragment shown when user is logged in. Contains the actions that need a certain level of
+ * authorization.
  * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
 public class LoggedCommands extends Fragment implements INfcHandler {

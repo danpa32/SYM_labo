@@ -32,6 +32,7 @@ import ch.heigvd.iict.sym.sym_labo3.R;
 import ch.heigvd.iict.sym.sym_labo3.model.BeaconSummary;
 
 /**
+ * Fragment that displays information about near-by iBeacons.
  * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
  */
 public class IBeacon extends Fragment implements BeaconConsumer {

@@ -14,7 +14,7 @@ public class LoggedAccess {
     private long tAuthStart = 0;
 
     /**
-     * Get the security level. The scurity level of the user is decremented by 1 every minutes.
+     * Get the security level. The security level of the user is decremented by 1 every minutes.
      * @return the current security level.
      */
     public int getSecurityLevel() {
