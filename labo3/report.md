@@ -182,3 +182,11 @@ Les iBeacons sont facilement falsifiables, il n’est donc pas recommandé de le
 ## Question
 
 > *Une fois la manipulation effectuée, vous constaterez que les animations de la flèche ne sont pas fluides, il va y avoir un tremblement plus ou moins important même si le téléphone ne bouge pas. Veuillez expliquer quelle est la cause la plus probable de ce tremblement et donner une manière (sans forcément l’implémenter) d’y remédier.*
+
+La cause principale de ces tremblements est très probablement la présence de bruits dans les valeurs relevées par les capteurs. Les capteurs en général sont très sensibles à leur environnement (c'est d'ailleurs ce qu'on leur demande) et peuvent subir des interférences selon la nature de cet environnement. Le capteur magnétique est très sensible à la présence de certains métaux à proximité par exemple.
+
+L'accéléromètre quand à lui est très sensible, on remarque en posant le téléphone sur une table que la moindre vibration (poser un objet sur la table par exemple) provoque une vibration de la boussole.
+
+Afin d'améliorer les données reçues des capteurs et supprimer les données parasites, on peut appliquer un «low-pass filter» afin de ne retenir que les valeurs qui nous intéressent. On définit un seuil (ALPHA dans notre code) et on «annule» les mesures dont la différence est inférieure au seuil.
+
+De ce fait, on évite les trop petites variations dues soit à des perturbations sur les capteurs soit à une «trop grande précision» de ces derniers. Ces tout petites variations sont caractérisées par un effet de tremblement de la flèche de la boussole. Il existe un second type de filtre que l'on aurait pu appliquer, le «high-pass filter» qui lui va atténuer les grandes variations. On aurait pu l'appliquer si l'on avait identifié des «sautes» de la flèche (qu'elle fasse un demi-tour durant un instant avant de revenir à sa position initiale, par exemple). Ces variations auraient pu survenir à cause de perturbations environnementales ou suite à un défaut du capteur.
