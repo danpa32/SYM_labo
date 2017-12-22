@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,17 @@ import android.view.ViewGroup;
 import ch.heigvd.iict.sym.sym_labo3.R;
 import ch.heigvd.iict.sym.sym_labo3.a3dcompassapp.OpenGLRenderer;
 
-
+/**
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
+ *         <p>
+ *         This class displays a fragment containing a compass, represented by a 3D arrow.
+ */
 public class Compass extends Fragment implements SensorEventListener {
+    /**
+     * This constant is a threshold used in low-pass filter to avoid little variations.
+     */
+    private static final float ALPHA = 0.8f;
+
     // OpenGL
     private OpenGLRenderer openGLRenderer = null;
     private GLSurfaceView m3DView = null;
@@ -30,7 +40,13 @@ public class Compass extends Fragment implements SensorEventListener {
 
     private float[] gravityVector = {0, 0, 0};
     private float[] geomagneticVector = {0, 0, 0};
-    private float[] rotationMatrix = {0, 0, 0};
+
+    // Use the identity rotation matrix as default rotation matrix
+    private float[] rotationMatrix = {
+            1f, 0f, 0f, 0f,
+            0f, 1f, 0f, 0f,
+            0f, 0f, 1f, 0f,
+            0f, 0f, 0f, 1f};
 
     public Compass() {
         // Required empty public constructor
@@ -45,15 +61,21 @@ public class Compass extends Fragment implements SensorEventListener {
         accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         geomagneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
-        sensorManager.registerListener(this, geomagneticSensor, SensorManager.SENSOR_DELAY_GAME);
-
-        // we need fullscreen
-        // this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (accelerometerSensor == null || geomagneticSensor == null) {
+            Log.e("Compass", "Error, all sensor aren't available");
+        }
 
         // We create the 3D renderer
         this.openGLRenderer = new OpenGLRenderer(getContext());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // This class is a SensorEventListener, it can listen to sensors events
+        sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, geomagneticSensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
     @Override
@@ -74,16 +96,37 @@ public class Compass extends Fragment implements SensorEventListener {
         this.m3DView.setRenderer(this.openGLRenderer);
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        // Read value from the sensor
-        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            gravityVector = sensorEvent.values;
-        } else if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-            geomagneticVector = sensorEvent.values;
+    /**
+     * This low-pass filter is used to filter low variations on a vector
+     */
+    private float[] lowPassFilter(float[] input, float[] output) {
+        if (output == null) return input;
+
+        for (int i = 0; i < input.length; i++) {
+            output[i] = output[i] + ALPHA * (input[i] - output[i]);
         }
 
-        // Update the rotation matrix
+        return output;
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        // Check if accuracy is sufficient
+        if (sensorEvent.accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
+            Log.i("Compass", "Accuracy is bad");
+            return;
+        }
+
+        // Read value from the sensor
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            // Apply the low-pass filter
+            gravityVector = lowPassFilter(sensorEvent.values, gravityVector);
+        } else if (sensorEvent.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            // Apply the low-pass filter
+            geomagneticVector = lowPassFilter(sensorEvent.values, geomagneticVector);
+        }
+
+        // Calculate and update the rotation matrix
         if (SensorManager.getRotationMatrix(rotationMatrix, null, gravityVector, geomagneticVector)) {
             rotationMatrix = openGLRenderer.swapRotMatrix(rotationMatrix);
         }
@@ -91,6 +134,13 @@ public class Compass extends Fragment implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
+        // Do nothing
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this, geomagneticSensor);
+        sensorManager.unregisterListener(this, accelerometerSensor);
     }
 }
