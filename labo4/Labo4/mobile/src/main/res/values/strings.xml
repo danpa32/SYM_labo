@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">SYM-Labo4</string>
+
+    <string name="main_btn_notification">Notification</string>
+    <string name="main_btn_application">Application</string>
+
+    <string name="notification_btn_display_notification">Display</string>
+    <string name="notification_wear_action">Say Hello !</string>
+    <string name="pending_notifications">Pending Notifications</string>
+    <string name="action_notification">Action Notification</string>
+    <string name="wearable_only_notification">Wearable Only Notification</string>
+
+    <string name="notif_title">You have a new notification</string>
+    <string name="simple_notif_text">This is a simple notification</string>
+    <string name="action_button_notif_text">This is an action notification</string>
+    <string name="action_button_text">Click here to display a toast on the phone</string>
+    <string name="wearable_only_notif_text">This is a wearable only action notification</string>
+</resources>
