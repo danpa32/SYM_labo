@@ -69,6 +69,7 @@ public class NotificationActivity extends AppCompatActivity {
                 .setSmallIcon(R.drawable.ic_lightbulb_on_black_18dp)
                 .setContentTitle(title)
                 .setContentText(text)
+                .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent);
 
         notify(builder.build());
@@ -104,7 +105,8 @@ public class NotificationActivity extends AppCompatActivity {
         PendingIntent resultPendingIntent = createPendingIntent(0, text);
 
         NotificationCompat.WearableExtender wearableExtender =
-                new NotificationCompat.WearableExtender().addAction(new NotificationCompat.Action(R.drawable.ic_alert_white_18dp,
+                new NotificationCompat.WearableExtender()
+                        .addAction(new NotificationCompat.Action(R.drawable.ic_alert_white_18dp,
                         getString(R.string.action_button_text),
                         resultPendingIntent));
 
@@ -113,11 +115,8 @@ public class NotificationActivity extends AppCompatActivity {
                         .setSmallIcon(R.drawable.ic_lightbulb_on_black_18dp)
                         .setContentTitle(title)
                         .setContentText(text)
-                        .extend(wearableExtender)
                         .setAutoCancel(true)
-                        .addAction(R.drawable.ic_alert_black_18dp,
-                                getString(R.string.action_button_text),
-                                resultPendingIntent);
+                        .extend(wearableExtender);
 
         notify(builder.build());
     }
