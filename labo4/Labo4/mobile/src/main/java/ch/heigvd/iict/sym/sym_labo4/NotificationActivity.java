@@ -1,9 +1,7 @@
 package ch.heigvd.iict.sym.sym_labo4;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -20,6 +18,9 @@ public class NotificationActivity extends AppCompatActivity {
     private Button pendingIntent = null;
     private Button actionButton = null;
     private Button wearableOnlyActions = null;
+
+    private int notifId = 001;
+    private NotificationManagerCompat notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +123,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void notify(Notification notification) {
-        int notifId = 001;
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(notifId, notification);
     }
 
@@ -136,8 +136,9 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if(intent == null) return;
-        if(Constants.MY_PENDING_INTENT_ACTION.equals(intent.getAction()))
+        if(Constants.MY_PENDING_INTENT_ACTION.equals(intent.getAction())) {
             Toast.makeText(this, "" + intent.getStringExtra("msg"), Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -160,11 +161,4 @@ public class NotificationActivity extends AppCompatActivity {
 
         return stackBuilder.getPendingIntent(requestCode, PendingIntent.FLAG_UPDATE_CURRENT);
     }
-
-    public static void CancelNotification(Context ctx, int notifyId) {
-        NotificationManager mNM = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-        assert mNM != null;
-        mNM.cancel(notifyId);
-    }
-
 }
