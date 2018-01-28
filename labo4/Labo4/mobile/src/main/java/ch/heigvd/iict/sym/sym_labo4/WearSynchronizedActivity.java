@@ -16,6 +16,12 @@ import com.google.android.gms.wearable.Wearable;
 
 import ch.heigvd.iict.sym.wearcommon.Constants;
 
+/**
+ * This activity will be listening to data sent by the wearable. Depending on the data received, the
+ * background's color will change.
+ *
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
+ */
 public class WearSynchronizedActivity extends AppCompatActivity implements DataClient.OnDataChangedListener {
 
     private static final String TAG = WearSynchronizedActivity.class.getSimpleName();
@@ -25,24 +31,31 @@ public class WearSynchronizedActivity extends AppCompatActivity implements DataC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wearsynchronized);
 
+        // Register as a listener to the data sent by the wearable
         Wearable.getDataClient(getApplicationContext()).addListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Register as a listener to the data sent by the wearable
         Wearable.getDataClient(getApplicationContext()).addListener(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        // Unregister as a listener to the data sent by the wearable
         Wearable.getDataClient(getApplicationContext()).removeListener(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        // Unregister as a listener to the data sent by the wearable
         Wearable.getDataClient(getApplicationContext()).removeListener(this);
     }
 
@@ -57,12 +70,17 @@ public class WearSynchronizedActivity extends AppCompatActivity implements DataC
         rootView.setBackgroundColor(Color.argb(255, r,g,b));
     }
 
+    /**
+     * Method called when data change, read the color and update the background's color.
+     * @param dataEventBuffer Data source buffer
+     */
     @Override
     public void onDataChanged(@NonNull DataEventBuffer dataEventBuffer) {
         for (DataEvent dataEvent : dataEventBuffer) {
             if (dataEvent.getType() == DataEvent.TYPE_CHANGED) {
                 DataItem dataItem = dataEvent.getDataItem();
 
+                // Update only if color has changed
                 if (dataItem.getUri().getPath().compareTo(Constants.PATH_COLORS) == 0) {
                     DataMap map = DataMapItem.fromDataItem(dataItem).getDataMap();
                     updateColor(map.getInt(Constants.COLORS[0]),

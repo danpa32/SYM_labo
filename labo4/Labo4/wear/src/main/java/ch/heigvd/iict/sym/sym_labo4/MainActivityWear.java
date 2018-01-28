@@ -18,6 +18,12 @@ import com.google.android.gms.wearable.Wearable;
 import ch.heigvd.iict.sym.sym_labo4.widgets.CircularSliderRangeFixed;
 import ch.heigvd.iict.sym.wearcommon.Constants;
 
+/**
+ * Main activity displayed on the wearable. Shows circular concentric sliders to change the phone's
+ * application's background color.
+ *
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
+ */
 public class MainActivityWear extends WearableActivity {
 
     private static final String TAG = MainActivityWear.class.getSimpleName();
@@ -124,7 +130,7 @@ public class MainActivityWear extends WearableActivity {
 
     /**
      *  Method called when a slider stops moving
-     *  Color RGB composants are computed
+     *  Color RGB components are computed
      *  You need to send them to the smartphone application using DataLayer API
      */
     private void updateColor() {

@@ -5,6 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * Main activity, displays two buttons to allow the user to choose between the notifications or
+ * remote controlled function of the application.
+ *
+ * @author Christopher MEIER, Guillaume MILANI, Daniel PALUMBO
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
